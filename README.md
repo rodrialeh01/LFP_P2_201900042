@@ -1,2 +1,2 @@
 # LFP_P2_201900042
-Proyecto 2 del curso de Lenguajes Formales y de Programación
+Proyecto 2 del curso de Lenguajes Formales y de Programación, Diciembre 2021
