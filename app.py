@@ -10,7 +10,7 @@ from PIL import ImageTk, Image
 #VENTANA
 ventana = tk.Tk()
 ventana.title('MyCareer-USAC')
-ventana.geometry('1250x650')
+ventana.geometry('1250x680')
 ventana.config(bg='#00144F')
 ventana.iconbitmap('logoU.ico')
 ventana.resizable(0,0)
@@ -49,5 +49,13 @@ cuadro1.place(x=30, y=70)
 #CUADRO DE TEXTO 2 (DERECHO)
 cuadroconsola = scrolledtext.ScrolledText(ventana,bg='#222225',fg='green',width=70,height=35,font=('COURIER',10),state='disabled')
 cuadroconsola.place(x=650,y=70)
+
+#LABEL DE DATOS
+labeld = Label(ventana,text='Proyecto 2 - 201900042', font='arial 15', fg='white', bg='#00144F')
+labeld.place(x=1010, y=640)
+
+#LABEL DE DATOS 2
+labeld2 = Label(ventana,text='Lenguajes Formales y de Programación', font='arial 15', fg='white', bg='#00144F')
+labeld2.place(x=30, y=640)
 
 ventana.mainloop()
