@@ -24,12 +24,36 @@ imagen = ImageTk.PhotoImage(Image.open('ImagenU.png').resize((50,50)))
 ilabel = Label(image=imagen, bg='#00144F')
 ilabel.place(x=30, y=5)
 
+#CUADRO DE TEXTO 1 (IZQUIERDO)
+cuadro1 = scrolledtext.ScrolledText(ventana,bg='white',fg='black',width=70,height=35,font=('COURIER',10))
+cuadro1.place(x=30, y=70)
+
+contenido = ''
+def ObtenerRuta():
+    ruta = filedialog.askopenfilename(title='Cargar Archivo', filetypes = (("Text files", "*.lfp*"), ("all files", "*.*")))
+    return ruta
+
+def CargarArchivo():
+    global contenido
+    global cuadro1
+    ruta = ObtenerRuta()
+    if ruta != "":
+        archivo = open(ruta,'r')   
+        contenido = archivo.read()
+        #print(contenido)
+        if cuadro1.get(1.0, END) != "":
+            cuadro1.delete(1.0,END)
+            cuadro1.insert(tk.INSERT, contenido)
+        messagebox.showinfo("Success","Archivo cargado")
+    else:
+        messagebox.showinfo("Warning","No se cargó ningun archivo")
+
 #BOTON DE CARGAR ARCHIVO
-botonca = Button(ventana,text='Cargar Archivo', font='arial 12 bold', bg="white")
+botonca = Button(ventana,text='Cargar Archivo', font='arial 12 bold', bg="white", command=CargarArchivo)
 botonca.place(x=550,y=20)
 
 #BOTON DE ANALIZAR ARCHIVO
-botonca = Button(ventana,text='Analizar Archivo', font='arial 12 bold', bg="white")
+botonca = Button(ventana,text='Analizar Texto', font='arial 12 bold', bg="white")
 botonca.place(x=700,y=20)
 
 #COMBOBOX DE OPCIONES
@@ -41,10 +65,6 @@ copciones.config(font='arial 12')
 #BOTON DE GENERAR REPORTE
 botonca = Button(ventana,text='Generar Reporte', font='arial 12 bold', bg="white")
 botonca.place(x=1070,y=20)
-
-#CUADRO DE TEXTO 1 (IZQUIERDO)
-cuadro1 = scrolledtext.ScrolledText(ventana,bg='white',fg='black',width=70,height=35,font=('COURIER',10))
-cuadro1.place(x=30, y=70)
 
 #CUADRO DE TEXTO 2 (DERECHO)
 cuadroconsola = scrolledtext.ScrolledText(ventana,bg='#222225',fg='green',width=70,height=35,font=('COURIER',10),state='disabled')
