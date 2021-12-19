@@ -7,6 +7,9 @@ from tkinter import *
 #PILLOW
 from PIL import ImageTk, Image
 
+#------------------------------- LLAMANDO CLASES ---------------------------------------
+from AnalizadorLexico import AnalizadorLexico
+
 #VENTANA
 ventana = tk.Tk()
 ventana.title('MyCareer-USAC')
@@ -40,7 +43,6 @@ def CargarArchivo():
     if ruta != "":
         archivo = open(ruta,'r')   
         contenido = archivo.read()
-        #print(contenido)
         if cuadro1.get(1.0, END) != "":
             cuadro1.delete(1.0,END)
             cuadro1.insert(tk.INSERT, contenido)
@@ -48,12 +50,18 @@ def CargarArchivo():
     else:
         messagebox.showinfo("Warning","No se cargó ningun archivo")
 
+def AnalizarArchivo():
+    global contenido
+    a = AnalizadorLexico()
+    a.analisis(contenido)
+    a.imprimir()
+
 #BOTON DE CARGAR ARCHIVO
 botonca = Button(ventana,text='Cargar Archivo', font='arial 12 bold', bg="white", command=CargarArchivo)
 botonca.place(x=550,y=20)
 
 #BOTON DE ANALIZAR ARCHIVO
-botonca = Button(ventana,text='Analizar Texto', font='arial 12 bold', bg="white")
+botonca = Button(ventana,text='Analizar Texto', font='arial 12 bold', bg="white", command=AnalizarArchivo)
 botonca.place(x=700,y=20)
 
 #COMBOBOX DE OPCIONES
