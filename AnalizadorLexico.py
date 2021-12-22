@@ -148,14 +148,14 @@ class AnalizadorLexico:
                     estado = 'A'
             indice += 1
 
-    def imprimir(self):
-        print('Tokens')
-        for token in self.listaTokens:
-            token.getInfo()
-        print()
-        print('Errores')
-        for token in self.listaErrores:
-            token.getInfo()
-        print()
-        print("Cantidad de tokens: " + str(len(self.listaTokens)))
-        print("Cantidad de errores: " + str(len(self.listaErrores)))
+#def imprimir(self):
+#    print('Tokens')
+#    for token in self.listaTokens:
+#        token.getInfo()
+#    print()
+#    print('Errores')
+#    for token in self.listaErrores:
+#        token.getInfo()
+#    print()
+#    print("Cantidad de tokens: " + str(len(self.listaTokens)))
+#    print("Cantidad de errores: " + str(len(self.listaErrores)))

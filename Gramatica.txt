@@ -1,0 +1,36 @@
+INICIO -> INSTRUCCIONES
+
+INSTRUCCIONES -> INSTRUCCION INSTRUCCIONES2
+
+INSTRUCCIONES2 -> INSTRUCCION INSTRUCCIONES2
+                | Epsilon << EOF >>
+
+INSTRUCCION -> NOMBRARRED
+             | CREARCURSO
+             | IMPRIMIRSINSALTO
+             | IMPRIMIRCONSALTO
+             | CURSOSPORSEMESTRE
+             | CURSOPORCODIGO
+             | CURSOPORNOMBRE 
+             | CURSOSPRERREQUISITOS
+             | CURSOSPOSTRREQUISITOS
+             | GENERARRED 
+
+NOMBRARRED -> nombre_de_red parentesisa cadena parentesisc puntoycoma
+CREARCURSO -> crearcurso parentesisa entero coma entero coma cadena coma ARREGLO parentesisc puntoycoma
+IMPRIMIRSINSALTO -> consola parentesisa VALOR parentesisc puntoycoma
+IMPRIMIRCONSALTO -> consolaln parentesisa VALOR parentesisc puntoycoma
+CURSOSPORSEMESTRE -> cursosporsemestre parentesisa entero parentesisc puntoycoma
+CURSOPORCODIGO -> cursoPorCodigo parentesisa entero parentesisc puntoycoma
+CURSOPORNOMBRE -> cursoPorNombre parentesisa cadena parentesisc puntoycoma
+CURSOSPRERREQUISITOS -> cursosPrerrequisitos parentesisa entero parentesisc puntoycoma
+CURSOSPOSTRREQUISITOS -> cursosPostrrequisitos parentesisa entero parentesisc puntoycoma
+GENERARRED -> generarRed parentesisa cadena parentesisc puntoycoma
+
+ARREGLO -> corchetea LISTAENTEROS corchetec
+
+LISTAENTEROS -> entero LISTAENTEROS2 
+              | Epsilon (corchetec)
+
+LISTAENTEROS2 -> coma entero LISTAENTEROS2
+               | Epsilon (corchetec)

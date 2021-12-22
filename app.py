@@ -9,9 +9,9 @@ from PIL import ImageTk, Image
 
 #------------------------------- LLAMANDO CLASES ---------------------------------------
 from AnalizadorLexico import AnalizadorLexico
+from AnalizadorSintactico import AnalizadorSintactico
 from ReporteErrores import generararchivoE
-from ReporteTokens import *
-from ReporteErrores import *
+from ReporteTokens import generararchivoT
 
 #VENTANA
 ventana = tk.Tk()
@@ -52,14 +52,16 @@ def CargarArchivo():
     else:
         messagebox.showinfo("Warning","No se cargó ningun archivo")
 
-a = AnalizadorLexico()
+escaner = AnalizadorLexico()
+orden = AnalizadorSintactico()
 def AnalizarArchivo():
     global contenido
     global cuadro1
-    global a
+    global escaner
+    global orden
     contenido = cuadro1.get(1.0, END)    
-    a.analisis(contenido)
-    a.imprimir()
+    escaner.analisis(contenido)
+    orden.analizar(escaner.listaTokens,escaner.listaErrores)
 
 #BOTON DE CARGAR ARCHIVO
 botonca = Button(ventana,text='Cargar Archivo', font='arial 12 bold', bg="white", command=CargarArchivo)
@@ -77,13 +79,13 @@ copciones.config(font='arial 12')
 
 def generarReporte():
     global copciones
-    global a
+    global escaner
     if (copciones.get()=="Tokens"):
         print('REPORTE DE TOKENS')
-        generararchivoT(a.listaTokens)
+        generararchivoT(escaner.listaTokens)
     elif (copciones.get()=="Errores"):
         print('REPORTE DE ERRORES')
-        generararchivoE(a.listaErrores)
+        generararchivoE(escaner.listaErrores)
     else:
         messagebox.showinfo("Warning","No ha seleccionado nada valido")
 
