@@ -9,6 +9,9 @@ from PIL import ImageTk, Image
 
 #------------------------------- LLAMANDO CLASES ---------------------------------------
 from AnalizadorLexico import AnalizadorLexico
+from ReporteErrores import generararchivoE
+from ReporteTokens import *
+from ReporteErrores import *
 
 #VENTANA
 ventana = tk.Tk()
@@ -37,22 +40,24 @@ def ObtenerRuta():
     return ruta
 
 def CargarArchivo():
-    global contenido
     global cuadro1
     ruta = ObtenerRuta()
     if ruta != "":
         archivo = open(ruta,'r')   
-        contenido = archivo.read()
+        contenidoa = archivo.read()
         if cuadro1.get(1.0, END) != "":
             cuadro1.delete(1.0,END)
-            cuadro1.insert(tk.INSERT, contenido)
+            cuadro1.insert(tk.INSERT, contenidoa)
         messagebox.showinfo("Success","Archivo cargado")
     else:
         messagebox.showinfo("Warning","No se cargó ningun archivo")
 
+a = AnalizadorLexico()
 def AnalizarArchivo():
     global contenido
-    a = AnalizadorLexico()
+    global cuadro1
+    global a
+    contenido = cuadro1.get(1.0, END)    
     a.analisis(contenido)
     a.imprimir()
 
@@ -67,11 +72,23 @@ botonca.place(x=700,y=20)
 #COMBOBOX DE OPCIONES
 copciones = ttk.Combobox()
 copciones.place(x=850,y=20)
-copciones['values']=['Tokens','Errores','Árbol']
+copciones['values']=['Tokens','Errores']
 copciones.config(font='arial 12')
 
+def generarReporte():
+    global copciones
+    global a
+    if (copciones.get()=="Tokens"):
+        print('REPORTE DE TOKENS')
+        generararchivoT(a.listaTokens)
+    elif (copciones.get()=="Errores"):
+        print('REPORTE DE ERRORES')
+        generararchivoE(a.listaErrores)
+    else:
+        messagebox.showinfo("Warning","No ha seleccionado nada valido")
+
 #BOTON DE GENERAR REPORTE
-botonca = Button(ventana,text='Generar Reporte', font='arial 12 bold', bg="white")
+botonca = Button(ventana,text='Generar Reporte', font='arial 12 bold', bg="white", command=generarReporte)
 botonca.place(x=1070,y=20)
 
 #CUADRO DE TEXTO 2 (DERECHO)

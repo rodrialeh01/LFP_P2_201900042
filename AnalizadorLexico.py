@@ -75,6 +75,16 @@ class AnalizadorLexico:
                     buffer = caracter
                     columna += 1
                     estado = 'D'
+                elif caracter == '$':
+                    buffer = caracter
+                    columna += 1
+                    self.listaTokens.append(Token(buffer, '<< EOF >>' , linea, columna))
+                    buffer = ''
+                    estado = 'A'
+                else:
+                    self.listaErrores.append(Error(caracter,caracter + " no reconocido como token.", 'Léxico', linea, columna)) 
+                    buffer = ''
+                    columna += 1
             elif estado == 'B':
                 if caracter.isalpha() and (not caracter.isdigit()) or caracter == '_':
                     buffer += caracter
