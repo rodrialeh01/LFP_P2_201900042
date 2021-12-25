@@ -1,7 +1,15 @@
-from Expresiones import *
+#---------------------------------LLAMANDO LIBRERIA GRAPHVIZ-----------------------------
 from graphviz import Graph
+#---------------------------------LLAMANDO CLASES----------------------------------------
+from Expresiones import *
 from Curso import Curso
+
+#-----------------------------------VARIABLES GLOBALES-----------------------------------
 textconsola = ''
+cursos = []
+nombrered = ''
+
+#CLASE DE INICIO
 class InstruccionInicio:
     def __init__(self, instrucciones):
         self.instrucciones = instrucciones
@@ -19,6 +27,7 @@ class InstruccionInicio:
         dot.edge(id, idinstrucciones)
         return id
 
+#CLASE DE INSTRUCCIONES
 class InstruccionInstrucciones:
     def __init__(self, instruccion, instrucciones2):
         self.instruccion = instruccion
@@ -41,6 +50,7 @@ class InstruccionInstrucciones:
 
         return id
 
+#CLASE INSTRUCCION
 class InstruccionInstruccion:
     def __init__(self, instruccion):
         self.instruccion = instruccion
@@ -59,6 +69,7 @@ class InstruccionInstruccion:
 
         return id
 
+#CLASE INSTRUCCIONES2
 class InstruccionInstrucciones2:
     def __init__(self, instruccion, instrucciones2):
         self.instruccion = instruccion
@@ -87,8 +98,7 @@ class InstruccionInstrucciones2:
             dot.node(id, "Epsilon")
             return id
 
-nombrered = ''
-
+#CLASE NOMBRAR RED PARA GUARDAR EL NOMBRE DE LA RED
 class InstruccionNombrarred:
     def __init__(self, exp):
         self.exp = exp
@@ -129,8 +139,7 @@ class InstruccionNombrarred:
 
         return id
 
-#LISTA DE CURSOS
-cursos = []
+#CLASE CREARCURSO PARA CREAR EL CURSO Y GUARDAR SUS OBJETOS
 class InstruccionCrearcurso:
     def __init__(self, entero1, entero2, cadena, arreglo):
         self.entero1 = entero1
@@ -192,6 +201,7 @@ class InstruccionCrearcurso:
 
         return id
 
+#CLASE IMPRIMIRSINSALTO PARA MOSTRAR EL TEXTO SIN SALTO DE LINEA
 class InstruccionImprimirsinsalto:
     def __init__(self, exp):
         self.exp = exp
@@ -229,6 +239,7 @@ class InstruccionImprimirsinsalto:
 
         return id
 
+#CLASE IMPRIMIRCONSALTO PARA MOSTRAR EL TEXTO Y LUEGO EJECUTAR EL SALTO DE LINEA
 class InstruccionImprimirconsalto:
     def __init__(self, exp):
         self.exp = exp
@@ -267,6 +278,7 @@ class InstruccionImprimirconsalto:
 
         return id
 
+#CLASE CURSOSPORSEMESTRE DONDE MUESTRA TODOS LOS CURSOS DEL SEMESTRE SELECCIONADO
 class InstruccionCursosporsemestre:
     def __init__(self, cod):
         self.cod = cod
@@ -311,6 +323,7 @@ class InstruccionCursosporsemestre:
 
         return id
 
+#CLASE CURSOPORCODIGO PARA MOSTRAR EL CURSO CON EL CODIGO INGRESADO EN LA CONSOLA DE TEXTO
 class InstruccionCursoporcodigo:
     def __init__(self, codigo):
         self.codigo = codigo
@@ -355,6 +368,7 @@ class InstruccionCursoporcodigo:
 
         return id
 
+#CLASE CURSOPORNOMBRE DONDE SE MUESTRA EL CURSO POR MEDIO DEL NOMBRE INGRESADO
 class InstruccionCursopornombre:
     def __init__(self, nombre):
         self.nombre = nombre
@@ -399,6 +413,7 @@ class InstruccionCursopornombre:
 
         return id
 
+#CURSO CURSOSPRERREQUISITOS DONDE SE MUESTRAN TODOS LOS PRERREQUISITOS DEL CODIGO DEL CURSO INGRESADO
 class InstruccionCursosprerrequisitos:
     def __init__(self, codigo):
         self.codigo = codigo
@@ -452,6 +467,7 @@ class InstruccionCursosprerrequisitos:
 
         return id
 
+#CLASE CURSOSPOSTRREQUISITOS PARA MOSTRAR TODOS LOS CURSOS POSTRREQUISITOS POR MEDIO DEL CURSO INGRESADO
 class InstruccionCursospostrrequisitos:
     def __init__(self, codigo):
         self.codigo = codigo
@@ -505,6 +521,7 @@ class InstruccionCursospostrrequisitos:
 
         return id
 
+#CLASE GENERARRED PARA GENERAR UN ARBOL DE LA RED CURRICULAR GUARDADO CON EL NOMBRE INGRESADO
 class InstruccionGenerarred:
     def __init__(self, nombre):
         self.nombre = nombre

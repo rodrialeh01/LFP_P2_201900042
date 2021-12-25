@@ -9,11 +9,16 @@ from PIL import ImageTk, Image
 
 #------------------------------- LLAMANDO CLASES ---------------------------------------
 from AnalizadorLexico import AnalizadorLexico
-from AnalizadorSintactico import *
+from AnalizadorSintactico import AnalizadorSintactico
 from Expresiones import *
-from ReporteErrores import Inicio, generararchivoE
+from ReporteErrores import generararchivoE
 from ReporteTokens import generararchivoT
 from Instrucciones import *
+
+#--------------------------------VARIABLES GLOBALES-------------------------------------
+contenido = ''
+escaner = AnalizadorLexico()
+orden = AnalizadorSintactico()
 
 #VENTANA
 ventana = tk.Tk()
@@ -36,11 +41,12 @@ ilabel.place(x=30, y=5)
 cuadro1 = scrolledtext.ScrolledText(ventana,bg='white',fg='black',width=70,height=35,font=('COURIER',10))
 cuadro1.place(x=30, y=70)
 
-contenido = ''
+#FUNCION PARA OBTENER LA RUTA DEL ARCHIVO
 def ObtenerRuta():
     ruta = filedialog.askopenfilename(title='Cargar Archivo', filetypes = (("Text files", "*.lfp*"), ("all files", "*.*")))
     return ruta
 
+#FUNCION PARA CARGAR EL ARCHIVO A LA INTERFZ GRAFICA
 def CargarArchivo():
     global cuadro1
     ruta = ObtenerRuta()
@@ -54,8 +60,7 @@ def CargarArchivo():
     else:
         messagebox.showinfo("Warning","No se cargó ningun archivo")
 
-escaner = AnalizadorLexico()
-orden = AnalizadorSintactico()
+#FUNCION PARA ANALIZAR EL ARCHIVO LFP
 def AnalizarArchivo():
     global contenido
     global cuadro1
@@ -67,6 +72,7 @@ def AnalizarArchivo():
     orden.analizar(escaner.listaTokens,escaner.listaErrores)
     if cuadroconsola.get(1.0, END) != "":
         cuadroconsola.config(state='normal')
+        cuadroconsola.delete(1.0,END)
         cuadroconsola.insert(tk.INSERT, texto())
         cuadroconsola.config(state='disabled')
 
@@ -84,21 +90,25 @@ copciones.place(x=850,y=20)
 copciones['values']=['Tokens','Errores','Arbol de derivacion']
 copciones.config(font='arial 12')
 
+#FUNCION PARA GENERAR LOS REPORTES
 def generarReporte():
     global copciones
     global escaner
     global dot
     if (copciones.get()=="Tokens"):
         print('REPORTE DE TOKENS')
+        messagebox.showinfo("Success","Reporte de Tokens generado exitosamente.")
         generararchivoT(escaner.listaTokens)
     elif (copciones.get()=="Errores"):
         print('REPORTE DE ERRORES')
+        messagebox.showinfo("Success","Reporte de Errores generado exitosamente.")
         generararchivoE(escaner.listaErrores)
     elif (copciones.get()=="Arbol de derivacion"):
         print('REPORTE DE ARBOL DE DERIVACION')
+        messagebox.showinfo("Success","Árbol de derivación generado exitosamente.")
         verarbol()
     else:
-        messagebox.showinfo("Warning","No ha seleccionado nada valido")
+        messagebox.showinfo("Warning","No ha seleccionado nada valido.")
 
 #BOTON DE GENERAR REPORTE
 botonca = Button(ventana,text='Generar Reporte', font='arial 12 bold', bg="white", command=generarReporte)

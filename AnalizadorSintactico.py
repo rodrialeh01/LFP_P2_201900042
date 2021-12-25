@@ -1,14 +1,18 @@
+#-----------------------------------IMPORTANDO CLASES----------------------------------
 from Clases import Token,Error
-
 from Expresiones import *
 from Instrucciones import *
+
+#-----------------------------------VARIABLES GLOBALES---------------------------------
 raizarbol = ''
+
 class AnalizadorSintactico:
     def __init__(self):
         self.listaTokens = []
         self.listaErrores = []
         self.i = 0
 
+    #FUNCION DEL ORDEN DE LISTADEENTEROS2
     def listaenteros2(self):
         if self.listaTokens[self.i].tipo == 'tk_coma':
             self.i += 1
@@ -21,6 +25,7 @@ class AnalizadorSintactico:
         elif self.listaTokens[self.i].tipo == 'tk_corchetec':
             return ExpresionListaEnteros2(None,None)
 
+    #FUNCION DEL ORDEN DE LISTADEENTEROS
     def listaenteros(self):
         if self.listaTokens[self.i].tipo == 'tk_entero':
             lex = self.listaTokens[self.i].lexema
@@ -31,6 +36,7 @@ class AnalizadorSintactico:
         elif self.listaTokens[self.i].tipo == 'tk_corchetec':
             return ExpresionListaEnteros2(None,None)
 
+    #FUNCION DE ORDEN DE ARREGLO
     def arreglo(self):
         if self.listaTokens[self.i].tipo == 'tk_corchetea':
             self.i += 1
@@ -39,6 +45,7 @@ class AnalizadorSintactico:
                 self.i += 1
                 return ExpresionArreglo(lista)
 
+    #FUNCION DE ORDEN DE GENERARRED
     def generarred(self):
         if self.listaTokens[self.i].tipo == 'tk_generarRed':
             self.i += 1
@@ -54,6 +61,7 @@ class AnalizadorSintactico:
                             self.i += 1
                             return InstruccionGenerarred(excadena)
 
+    #FUNCION DE ORDEN DE CURSOSPOSTRREQUITOS
     def cursospostrrequisitos(self):
         if self.listaTokens[self.i].tipo == 'tk_cursosPostrrequisitos':
             self.i += 1
@@ -69,6 +77,7 @@ class AnalizadorSintactico:
                             self.i += 1
                             return InstruccionCursospostrrequisitos(expentero)
 
+    #FUNCION DE ORDEN DE CURSOSPRERREQUISITOS
     def cursosprerrequisitos(self):
         if self.listaTokens[self.i].tipo == 'tk_cursosPrerrequisitos':
             self.i += 1
@@ -84,6 +93,7 @@ class AnalizadorSintactico:
                             self.i += 1
                             return InstruccionCursosprerrequisitos(expentero)
 
+    #FUNCION DE ORDEN DE CURSOPORNOMBRE
     def cursopornombre(self):
         if self.listaTokens[self.i].tipo == 'tk_cursoPorNombre':
             self.i += 1
@@ -99,6 +109,7 @@ class AnalizadorSintactico:
                             self.i += 1
                             return InstruccionCursopornombre(excadena)
 
+    #FUNCION DE ORDEN DE CURSOPORCODIGO
     def cursoporcodigo(self):
         if self.listaTokens[self.i].tipo == 'tk_cursoPorCodigo':
             self.i += 1
@@ -114,6 +125,7 @@ class AnalizadorSintactico:
                             self.i += 1
                             return InstruccionCursoporcodigo(expentero)
 
+    #FUNCION DE ORDEN DE CURSOSPORSEMESTRE
     def cursosporsemestre(self):
         if self.listaTokens[self.i].tipo == 'tk_cursosporsemestre':
             self.i += 1
@@ -129,6 +141,7 @@ class AnalizadorSintactico:
                             self.i += 1
                             return InstruccionCursosporsemestre(expentero)
 
+    #FUNCION DE ORDEN DE IMPRIMIRCONSALTO
     def imprimirconsalto(self):
         if self.listaTokens[self.i].tipo == 'tk_consolaln':
             self.i += 1
@@ -144,6 +157,7 @@ class AnalizadorSintactico:
                             self.i += 1
                             return InstruccionImprimirconsalto(explex)
 
+    #FUNCION DE ORDEN DE IMPRIMIRSINSALTO
     def imprimirsinsalto(self):
         if self.listaTokens[self.i].tipo == 'tk_consola':
             self.i += 1
@@ -159,6 +173,7 @@ class AnalizadorSintactico:
                             self.i += 1
                             return InstruccionImprimirsinsalto(expcadena)
 
+    #FUNCION DE ORDEN DE CREARCURSO
     def crearcurso(self):
         if self.listaTokens[self.i].tipo == 'tk_crearcurso':
             self.i += 1
@@ -190,7 +205,7 @@ class AnalizadorSintactico:
                                                     self.i += 1
                                                     return InstruccionCrearcurso(expe1,expe2,expc,arr)
 
-
+    #FUNCION DE ORDEN DE NOMBRARRED
     def nombrarred(self):
         if self.listaTokens[self.i].tipo == 'tk_nombre_de_red':
             self.i += 1
@@ -206,6 +221,7 @@ class AnalizadorSintactico:
                             self.i += 1
                             return InstruccionNombrarred(expcadena)
 
+    #FUNCION DE ORDEN DE INSTRUCCION
     def instruccion(self):
         if self.listaTokens[self.i].tipo == 'tk_nombre_de_red':
             ins = self.nombrarred()
@@ -240,6 +256,7 @@ class AnalizadorSintactico:
         else:
             pass
 
+    #FUNCION DE ORDEN DE INSTRUCCIONES2
     def instrucciones2(self):
         if self.listaTokens[self.i].tipo == '<< EOF >>':
             print('Analisis Sintáctico realizado con éxito')
@@ -249,15 +266,18 @@ class AnalizadorSintactico:
             ins2 = self.instrucciones2()
             return InstruccionInstrucciones2(ins,ins2)
 
+    #FUNCION DE ORDEN DE INSTRUCCIONES
     def instrucciones(self):
         ins = self.instruccion()
         ins2 = self.instrucciones2()
         return InstruccionInstrucciones(ins,ins2)
 
+    #FUNCION DE ORDEN DE INICIO
     def inicio(self):
         ins = self.instrucciones()
         return InstruccionInicio(ins)
     
+    #FUNCION DE REALIZAR EL ANALISIS SINTACTICO
     def analizar(self, listaT, listaE):
         global raizarbol
         self.listaTokens = listaT

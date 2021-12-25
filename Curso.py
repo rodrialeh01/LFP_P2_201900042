@@ -1,3 +1,4 @@
+#CLASE CURSO
 class Curso:
     def __init__(self, semestre, codigo, nombre, prerrequisitos):
         self.semestre = semestre
