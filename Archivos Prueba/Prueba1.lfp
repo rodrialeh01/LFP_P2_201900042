@@ -31,6 +31,14 @@ crearcurso(4, 152, 'Fisica 2', [107,150]);
 crearcurso(4, 11, 'Idioma Tecnico 4', [9]);
 crearcurso(4, 2025, 'Practica Inicial', [103,770]);
 
+crearcurso(5, 736, 'Analisis Probabilistico', [732]);
+crearcurso(5, 777, 'Org. Lenguajes y Compiladores 1', [771,796,962]);
+crearcurso(5, 964, 'Organizacion Computacional', [152,771,962]);
+crearcurso(5, 772, 'Estructura de Datos', [771,796,962]);
+crearcurso(5, 18, 'Filosofia de la Ciencia', [19]);
+crearcurso(5, 116, 'Mate Aplicada 1', [112,114]);
+crearcurso(5, 118, 'Mate Aplicada 3', [112,114]);
+
 consola('Hola');
 consolaln('Holaln');
 consolaln('Pruebaln');
@@ -39,5 +47,5 @@ cursosporsemestre(1);
 cursoPorCodigo(150);
 cursoPorNombre('Idioma Tecnico 4');
 cursosPrerrequisitos(771);
-cursosPostrrequisitos(107);
+cursosPostrrequisitos(770);
 generarRed('grafo sistemas usac');

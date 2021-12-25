@@ -9,9 +9,11 @@ from PIL import ImageTk, Image
 
 #------------------------------- LLAMANDO CLASES ---------------------------------------
 from AnalizadorLexico import AnalizadorLexico
-from AnalizadorSintactico import AnalizadorSintactico
-from ReporteErrores import generararchivoE
+from AnalizadorSintactico import *
+from Expresiones import *
+from ReporteErrores import Inicio, generararchivoE
 from ReporteTokens import generararchivoT
+from Instrucciones import *
 
 #VENTANA
 ventana = tk.Tk()
@@ -59,9 +61,14 @@ def AnalizarArchivo():
     global cuadro1
     global escaner
     global orden
+    global cuadroconsola
     contenido = cuadro1.get(1.0, END)    
     escaner.analisis(contenido)
     orden.analizar(escaner.listaTokens,escaner.listaErrores)
+    if cuadroconsola.get(1.0, END) != "":
+        cuadroconsola.config(state='normal')
+        cuadroconsola.insert(tk.INSERT, texto())
+        cuadroconsola.config(state='disabled')
 
 #BOTON DE CARGAR ARCHIVO
 botonca = Button(ventana,text='Cargar Archivo', font='arial 12 bold', bg="white", command=CargarArchivo)
@@ -74,18 +81,22 @@ botonca.place(x=700,y=20)
 #COMBOBOX DE OPCIONES
 copciones = ttk.Combobox()
 copciones.place(x=850,y=20)
-copciones['values']=['Tokens','Errores']
+copciones['values']=['Tokens','Errores','Arbol de derivacion']
 copciones.config(font='arial 12')
 
 def generarReporte():
     global copciones
     global escaner
+    global dot
     if (copciones.get()=="Tokens"):
         print('REPORTE DE TOKENS')
         generararchivoT(escaner.listaTokens)
     elif (copciones.get()=="Errores"):
         print('REPORTE DE ERRORES')
         generararchivoE(escaner.listaErrores)
+    elif (copciones.get()=="Arbol de derivacion"):
+        print('REPORTE DE ARBOL DE DERIVACION')
+        verarbol()
     else:
         messagebox.showinfo("Warning","No ha seleccionado nada valido")
 
@@ -94,7 +105,7 @@ botonca = Button(ventana,text='Generar Reporte', font='arial 12 bold', bg="white
 botonca.place(x=1070,y=20)
 
 #CUADRO DE TEXTO 2 (DERECHO)
-cuadroconsola = scrolledtext.ScrolledText(ventana,bg='#222225',fg='green',width=70,height=35,font=('COURIER',10),state='disabled')
+cuadroconsola = scrolledtext.ScrolledText(ventana,bg='#222225',fg='white',width=70,height=35,font=('COURIER',10),state='disabled')
 cuadroconsola.place(x=650,y=70)
 
 #LABEL DE DATOS

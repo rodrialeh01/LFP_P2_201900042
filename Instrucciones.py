@@ -1,13 +1,23 @@
 from Expresiones import *
-import tkinter as tk
+from graphviz import Graph
 from Curso import Curso
-
+textconsola = ''
 class InstruccionInicio:
     def __init__(self, instrucciones):
         self.instrucciones = instrucciones
 
     def ejecutar(self, entorno):
         self.instrucciones.ejecutar(entorno)
+
+    def getNodos(self):
+        global dot
+        id = str(inc())
+        dot.node(id, 'INICIO')
+
+        idinstrucciones= self.instrucciones.getNodos()
+
+        dot.edge(id, idinstrucciones)
+        return id
 
 class InstruccionInstrucciones:
     def __init__(self, instruccion, instrucciones2):
@@ -18,12 +28,36 @@ class InstruccionInstrucciones:
         self.instruccion.ejecutar(entorno)
         self.instrucciones2.ejecutar(entorno)
 
+    def getNodos(self):
+        global dot
+        id = str(inc())
+        dot.node(id, 'INSTRUCCIONES')
+
+        idinstruccion= self.instruccion.getNodos()
+        idinstrucciones2= self.instrucciones2.getNodos()
+
+        dot.edge(id, idinstruccion)
+        dot.edge(id, idinstrucciones2)
+
+        return id
+
 class InstruccionInstruccion:
     def __init__(self, instruccion):
         self.instruccion = instruccion
 
     def ejecutar(self, entorno):
         self.instruccion.ejecutar(entorno)
+
+    def getNodos(self):
+        global dot
+        id = str(inc())
+        dot.node(id, 'INSTRUCCION')
+
+        idinstruccion= self.instruccion.getNodos()
+
+        dot.edge(id, idinstruccion)
+
+        return id
 
 class InstruccionInstrucciones2:
     def __init__(self, instruccion, instrucciones2):
@@ -35,6 +69,24 @@ class InstruccionInstrucciones2:
             self.instruccion.ejecutar(entorno)
             self.instrucciones2.ejecutar(entorno)
 
+    def getNodos(self):
+        global dot
+        if self.instruccion and self.instrucciones2:
+            id = str(inc())
+            dot.node(id, 'INSTRUCCIONES2')
+
+            idinstruccion= self.instruccion.getNodos()
+            idinstrucciones2= self.instrucciones2.getNodos()
+
+            dot.edge(id, idinstruccion)
+            dot.edge(id, idinstrucciones2)
+
+            return id
+        else:
+            id = str(inc())
+            dot.node(id, "Epsilon")
+            return id
+
 nombrered = ''
 
 class InstruccionNombrarred:
@@ -42,15 +94,40 @@ class InstruccionNombrarred:
         self.exp = exp
 
     def ejecutar(self, entorno):
-        #from app import cuadroconsola
         global nombrered
+        global textconsola
         valor = self.exp.getValor(entorno)
         nombrered = valor
-        mensaje = 'Agregó el nombre de red como: ' + str(valor)
-        #cuadroconsola.config(state='normal')
-        #cuadroconsola.insert(tk.INSERT, mensaje)
-        #cuadroconsola.config(state='disabled')
+        mensaje = 'Agregó el nombre de red como: ' + str(valor) + '\n'
         print(mensaje)
+        textconsola += mensaje
+
+    def getNodos(self):
+        global dot
+        id = str(inc())
+        dot.node(id, 'NOMBRARRED')
+
+        nr = str(inc())
+        dot.node(nr, 'nombre_de_red')
+
+        para = str(inc())
+        dot.node(para, '(')
+
+        idexp = self.exp.getNodos()
+
+        parc = str(inc())
+        dot.node(parc, ')')
+
+        pyc = str(inc())
+        dot.node(pyc, ';')
+
+        dot.edge(id, nr)
+        dot.edge(id, para)
+        dot.edge(id, idexp)
+        dot.edge(id, parc)
+        dot.edge(id,pyc)
+
+        return id
 
 #LISTA DE CURSOS
 cursos = []
@@ -62,43 +139,133 @@ class InstruccionCrearcurso:
         self.arreglo = arreglo
 
     def ejecutar(self, entorno):
-        #from app import cuadroconsola
         global cursos
+        global textconsola
         valor1 = self.entero1.getValor(entorno)
         valor2 = self.entero2.getValor(entorno)
         valor3 = self.cadena.getValor(entorno)
         arreglo = self.arreglo.getValor(entorno)
         cursos.append(Curso(valor1,valor2,valor3,arreglo))
-        mensaje = 'Se agregó el curso ' + str(valor3)
-        #cuadroconsola.config(state='normal')
-        #cuadroconsola.insert(tk.INSERT, mensaje)
-        #cuadroconsola.config(state='disabled')
+        mensaje = 'Se agregó el curso ' + str(valor3) + '\n'
         print(mensaje)
+        textconsola += mensaje
+
+    def getNodos(self):
+        global dot
+        id = str(inc())
+        dot.node(id, 'CREARCURSO')
+
+        cc = str(inc())
+        dot.node(cc, 'crearcurso')
+
+        para = str(inc())
+        dot.node(para, '(')
+
+        e1 = self.entero1.getNodos()
+        c1 = str(inc())
+        dot.node(c1, ',')
+        e2 = self.entero2.getNodos()
+        c2 = str(inc())
+        dot.node(c2, ',')
+        c = self.cadena.getNodos()
+        c3 = str(inc())
+        dot.node(c3, ',')
+        a = self.arreglo.getNodos()
+
+        parc = str(inc())
+        dot.node(parc, ')')
+
+        pyc = str(inc())
+        dot.node(pyc, ';')
+
+        dot.edge(id,cc)
+        dot.edge(id,para)
+        dot.edge(id,e1)
+        dot.edge(id,c1)
+        dot.edge(id,e2)
+        dot.edge(id,c2)
+        dot.edge(id,c)
+        dot.edge(id,c3)
+        dot.edge(id,a)
+        dot.edge(id,parc)
+        dot.edge(id, pyc)
+
+        return id
 
 class InstruccionImprimirsinsalto:
     def __init__(self, exp):
         self.exp = exp
 
     def ejecutar(self, entorno):
-        #from app import cuadroconsola
+        global textconsola
         valor = self.exp.getValor(entorno)
-        #cuadroconsola.config(state='normal')
-        #cuadroconsola.insert(tk.INSERT, valor)
-        #cuadroconsola.config(state='disabled')
         print(valor, end=" ")
+        textconsola+=valor
+
+    def getNodos(self):
+        global dot
+        id = str(inc())
+        dot.node(id, 'IMPRIMIRSINSALTO')
+
+        cons = str(inc())
+        dot.node(cons, 'consola')
+
+        para = str(inc())
+        dot.node(para, '(')
+
+        idexp = self.exp.getNodos()
+
+        parc = str(inc())
+        dot.node(parc, ')')
+
+        pyc = str(inc())
+        dot.node(pyc, ';')
+
+        dot.edge(id, cons)
+        dot.edge(id, para)
+        dot.edge(id, idexp)
+        dot.edge(id, parc)
+        dot.edge(id,pyc)
+
+        return id
 
 class InstruccionImprimirconsalto:
     def __init__(self, exp):
         self.exp = exp
 
     def ejecutar(self, entorno):
-        #from app import cuadroconsola
+        global textconsola
         valor = self.exp.getValor(entorno)
-        #resultado = str(valor) + '\n'
-        #cuadroconsola.config(state='normal')
-        #cuadroconsola.insert(tk.INSERT, resultado)
-        #cuadroconsola.config(state='disabled')
+        valorl = valor + '\n'
         print(valor)
+        textconsola += valorl
+
+    def getNodos(self):
+        global dot
+        id = str(inc())
+        dot.node(id, 'IMPRIMIRCONSALTO')
+
+        cons = str(inc())
+        dot.node(cons, 'consolaln')
+
+        para = str(inc())
+        dot.node(para, '(')
+
+        idexp = self.exp.getNodos()
+
+        parc = str(inc())
+        dot.node(parc, ')')
+
+        pyc = str(inc())
+        dot.node(pyc, ';')
+
+        dot.edge(id, cons)
+        dot.edge(id, para)
+        dot.edge(id, idexp)
+        dot.edge(id, parc)
+        dot.edge(id,pyc)
+
+        return id
 
 class InstruccionCursosporsemestre:
     def __init__(self, cod):
@@ -106,18 +273,43 @@ class InstruccionCursosporsemestre:
 
     def ejecutar(self, entorno):
         global cursos
-        #from app import cuadroconsola
+        global textconsola
         contenido = ''
         valor = self.cod.getValor(entorno)
-        #cuadroconsola.config(state='normal')
         contenido += '\n************ SEMESTRE: ' + str(valor) + ' ************\n'
         for c in cursos:
             if int(valor) == int(c.getSemestre()):
                 contenido += 'Código: ' + str(c.getCodigo()) + '\nCurso: ' + str(c.getNombre()) + '\nRequisitos:' + str(c.getPrerrequisitos()) + '\n\n'
-        contenido += '************************************'
-        #cuadroconsola.insert(tk.INSERT, contenido)
-        #cuadroconsola.config(state='disabled')
+        contenido += '************************************\n'
         print(contenido)
+        textconsola += contenido
+
+    def getNodos(self):
+        global dot
+        id = str(inc())
+        dot.node(id, 'CURSOSPORSEMESTRE')
+
+        cons = str(inc())
+        dot.node(cons, 'cursosporsemestre')
+
+        para = str(inc())
+        dot.node(para, '(')
+
+        idcod = self.cod.getNodos()
+
+        parc = str(inc())
+        dot.node(parc, ')')
+
+        pyc = str(inc())
+        dot.node(pyc, ';')
+
+        dot.edge(id, cons)
+        dot.edge(id, para)
+        dot.edge(id, idcod)
+        dot.edge(id, parc)
+        dot.edge(id,pyc)
+
+        return id
 
 class InstruccionCursoporcodigo:
     def __init__(self, codigo):
@@ -125,14 +317,43 @@ class InstruccionCursoporcodigo:
 
     def ejecutar(self, entorno):
         global cursos
+        global textconsola
         contenido = ''
         valor = self.codigo.getValor(entorno)
         contenido += '\n************************************\n'
         for c in cursos:
             if int(valor) == int(c.getCodigo()):
                 contenido += 'Curso: ' + str(c.getNombre()) + '\nSemestre: ' + str(c.getSemestre()) + '\nCódigo: ' + str(c.getCodigo()) + '\nPrerrequisitos: ' + str(c.getPrerrequisitos())
-        contenido += '\n************************************'
+        contenido += '\n************************************\n'
         print(contenido)
+        textconsola += contenido
+
+    def getNodos(self):
+        global dot
+        id = str(inc())
+        dot.node(id, 'CURSOPORCODIGO')
+
+        cons = str(inc())
+        dot.node(cons, 'cursoPorCodigo')
+
+        para = str(inc())
+        dot.node(para, '(')
+
+        idcodigo = self.codigo.getNodos()
+
+        parc = str(inc())
+        dot.node(parc, ')')
+
+        pyc = str(inc())
+        dot.node(pyc, ';')
+
+        dot.edge(id, cons)
+        dot.edge(id, para)
+        dot.edge(id, idcodigo)
+        dot.edge(id, parc)
+        dot.edge(id,pyc)
+
+        return id
 
 class InstruccionCursopornombre:
     def __init__(self, nombre):
@@ -140,14 +361,43 @@ class InstruccionCursopornombre:
 
     def ejecutar(self, entorno):
         global cursos
+        global textconsola
         contenido = ''
         valor = self.nombre.getValor(entorno)
         contenido += '\n************************************\n'
         for c in cursos:
             if str(valor) == str(c.getNombre()):
                 contenido += 'Curso: ' + str(c.getNombre()) + '\nSemestre: ' + str(c.getSemestre()) + '\nCódigo: ' + str(c.getCodigo()) + '\nPrerrequisitos: ' + str(c.getPrerrequisitos())
-        contenido += '\n************************************'
+        contenido += '\n************************************\n'
         print(contenido)
+        textconsola += contenido
+
+    def getNodos(self):
+        global dot
+        id = str(inc())
+        dot.node(id, 'CURSOPORNOMBRE')
+
+        cons = str(inc())
+        dot.node(cons, 'cursoPorNombre')
+
+        para = str(inc())
+        dot.node(para, '(')
+
+        idnombre = self.nombre.getNodos()
+
+        parc = str(inc())
+        dot.node(parc, ')')
+
+        pyc = str(inc())
+        dot.node(pyc, ';')
+
+        dot.edge(id, cons)
+        dot.edge(id, para)
+        dot.edge(id, idnombre)
+        dot.edge(id, parc)
+        dot.edge(id,pyc)
+
+        return id
 
 class InstruccionCursosprerrequisitos:
     def __init__(self, codigo):
@@ -155,14 +405,16 @@ class InstruccionCursosprerrequisitos:
 
     def ejecutar(self, entorno):
         global cursos
+        global textconsola
         contenido = ''
         valor = self.codigo.getValor(entorno)
         contenido += '\n************************************\n'
         for c in cursos:
             if int(valor) == int(c.getCodigo()):
                 contenido += 'Curso: ' + str(c.getNombre()) + '\nPrerrequisitos: ' + self.obtenernombres(c.getPrerrequisitos())
-        contenido += '\n************************************'
+        contenido += '\n************************************\n'
         print(contenido)
+        textconsola += contenido
 
     def obtenernombres(self,arreglop):
         content = ''
@@ -173,20 +425,49 @@ class InstruccionCursosprerrequisitos:
                     content += c.getNombre() + '\n                '
         return content
 
+    def getNodos(self):
+        global dot
+        id = str(inc())
+        dot.node(id, 'CURSOSPRERREQUISITOS')
+
+        cons = str(inc())
+        dot.node(cons, 'cursosPrerrequisitos')
+
+        para = str(inc())
+        dot.node(para, '(')
+
+        idcodigo = self.codigo.getNodos()
+
+        parc = str(inc())
+        dot.node(parc, ')')
+
+        pyc = str(inc())
+        dot.node(pyc, ';')
+
+        dot.edge(id, cons)
+        dot.edge(id, para)
+        dot.edge(id, idcodigo)
+        dot.edge(id, parc)
+        dot.edge(id,pyc)
+
+        return id
+
 class InstruccionCursospostrrequisitos:
     def __init__(self, codigo):
         self.codigo = codigo
 
     def ejecutar(self, entorno):
         global cursos
+        global textconsola
         contenido = ''
         valor = self.codigo.getValor(entorno)
         contenido += '\n************************************\n'
         for c in cursos:
             if int(valor) == int(c.getCodigo()):
                 contenido += 'Curso: ' + str(c.getNombre()) + '\nPostrrequisitos: ' + self.obtenerpost(valor)
-        contenido += '\n************************************'
+        contenido += '\n************************************\n'
         print(contenido)
+        textconsola += contenido
 
     def obtenerpost(self,codigo):
         texto = ''
@@ -197,35 +478,78 @@ class InstruccionCursospostrrequisitos:
                     texto += str(c.getNombre()) + '\n                 '
         return texto
 
+    def getNodos(self):
+        global dot
+        id = str(inc())
+        dot.node(id, 'CURSOSPOSTRREQUISITOS')
+
+        cons = str(inc())
+        dot.node(cons, 'cursosPostrrequisitos')
+
+        para = str(inc())
+        dot.node(para, '(')
+
+        idcodigo = self.codigo.getNodos()
+
+        parc = str(inc())
+        dot.node(parc, ')')
+
+        pyc = str(inc())
+        dot.node(pyc, ';')
+
+        dot.edge(id, cons)
+        dot.edge(id, para)
+        dot.edge(id, idcodigo)
+        dot.edge(id, parc)
+        dot.edge(id,pyc)
+
+        return id
+
 class InstruccionGenerarred:
     def __init__(self, nombre):
         self.nombre = nombre
 
     def ejecutar(self, entorno):
+        global textconsola
         valor = self.nombre.getValor(entorno)
         ruta = valor + '.txt'
         archivo = open(ruta, 'w')
         archivo.write('Esto es una prueba')
         archivo.close()
         print('Red generada con éxito')
+        textconsola += '\nRed generada con éxito'
 
-class InstruccionArreglo:
-    def __init__(self):
-        pass
+    def getNodos(self):
+        global dot
+        id = str(inc())
+        dot.node(id, 'GENERARRED')
 
-    def ejecutar(self, entorno):
-        pass
+        cons = str(inc())
+        dot.node(cons, 'generarRed')
 
-class InstruccionListaenteros:
-    def __init__(self):
-        pass
+        para = str(inc())
+        dot.node(para, '(')
 
-    def ejecutar(self, entorno):
-        pass
+        idnombre = self.nombre.getNodos()
 
-class InstruccionListaenteros2:
-    def __init__(self):
-        pass
+        parc = str(inc())
+        dot.node(parc, ')')
 
-    def ejecutar(self, entorno):
-        pass
+        pyc = str(inc())
+        dot.node(pyc, ';')
+
+        dot.edge(id, cons)
+        dot.edge(id, para)
+        dot.edge(id, idnombre)
+        dot.edge(id, parc)
+        dot.edge(id,pyc)
+
+        return id
+
+def verarbol():
+    global dot
+    dot.view()
+
+def texto():
+    global textconsola
+    return textconsola

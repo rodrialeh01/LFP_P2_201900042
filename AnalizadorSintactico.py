@@ -2,7 +2,7 @@ from Clases import Token,Error
 
 from Expresiones import *
 from Instrucciones import *
-
+raizarbol = ''
 class AnalizadorSintactico:
     def __init__(self):
         self.listaTokens = []
@@ -257,10 +257,12 @@ class AnalizadorSintactico:
     def inicio(self):
         ins = self.instrucciones()
         return InstruccionInicio(ins)
-
+    
     def analizar(self, listaT, listaE):
+        global raizarbol
         self.listaTokens = listaT
         self.listaErrores = listaE
 
         raizarbol = self.inicio()
         raizarbol.ejecutar({})
+        raizarbol.getNodos()
