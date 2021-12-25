@@ -68,7 +68,6 @@ class InstruccionCrearcurso:
         valor2 = self.entero2.getValor(entorno)
         valor3 = self.cadena.getValor(entorno)
         arreglo = self.arreglo.getValor(entorno)
-        print(arreglo)
         cursos.append(Curso(valor1,valor2,valor3,arreglo))
         mensaje = 'Se agregó el curso ' + str(valor3)
         #cuadroconsola.config(state='normal')
@@ -121,39 +120,94 @@ class InstruccionCursosporsemestre:
         print(contenido)
 
 class InstruccionCursoporcodigo:
-    def __init__(self):
-        pass
+    def __init__(self, codigo):
+        self.codigo = codigo
 
     def ejecutar(self, entorno):
-        pass
+        global cursos
+        contenido = ''
+        valor = self.codigo.getValor(entorno)
+        contenido += '\n************************************\n'
+        for c in cursos:
+            if int(valor) == int(c.getCodigo()):
+                contenido += 'Curso: ' + str(c.getNombre()) + '\nSemestre: ' + str(c.getSemestre()) + '\nCódigo: ' + str(c.getCodigo()) + '\nPrerrequisitos: ' + str(c.getPrerrequisitos())
+        contenido += '\n************************************'
+        print(contenido)
 
 class InstruccionCursopornombre:
-    def __init__(self):
-        pass
+    def __init__(self, nombre):
+        self.nombre = nombre
 
     def ejecutar(self, entorno):
-        pass
+        global cursos
+        contenido = ''
+        valor = self.nombre.getValor(entorno)
+        contenido += '\n************************************\n'
+        for c in cursos:
+            if str(valor) == str(c.getNombre()):
+                contenido += 'Curso: ' + str(c.getNombre()) + '\nSemestre: ' + str(c.getSemestre()) + '\nCódigo: ' + str(c.getCodigo()) + '\nPrerrequisitos: ' + str(c.getPrerrequisitos())
+        contenido += '\n************************************'
+        print(contenido)
 
 class InstruccionCursosprerrequisitos:
-    def __init__(self):
-        pass
+    def __init__(self, codigo):
+        self.codigo = codigo
 
     def ejecutar(self, entorno):
-        pass
+        global cursos
+        contenido = ''
+        valor = self.codigo.getValor(entorno)
+        contenido += '\n************************************\n'
+        for c in cursos:
+            if int(valor) == int(c.getCodigo()):
+                contenido += 'Curso: ' + str(c.getNombre()) + '\nPrerrequisitos: ' + self.obtenernombres(c.getPrerrequisitos())
+        contenido += '\n************************************'
+        print(contenido)
+
+    def obtenernombres(self,arreglop):
+        content = ''
+        global cursos
+        for c in cursos:
+            for p in arreglop:
+                if int(p) == int(c.getCodigo()):
+                    content += c.getNombre() + '\n                '
+        return content
 
 class InstruccionCursospostrrequisitos:
-    def __init__(self):
-        pass
+    def __init__(self, codigo):
+        self.codigo = codigo
 
     def ejecutar(self, entorno):
-        pass
+        global cursos
+        contenido = ''
+        valor = self.codigo.getValor(entorno)
+        contenido += '\n************************************\n'
+        for c in cursos:
+            if int(valor) == int(c.getCodigo()):
+                contenido += 'Curso: ' + str(c.getNombre()) + '\nPostrrequisitos: ' + self.obtenerpost(valor)
+        contenido += '\n************************************'
+        print(contenido)
+
+    def obtenerpost(self,codigo):
+        texto = ''
+        global cursos
+        for c in cursos:
+            for p in c.getPrerrequisitos():
+                if int(codigo) == int(p):
+                    texto += str(c.getNombre()) + '\n                 '
+        return texto
 
 class InstruccionGenerarred:
-    def __init__(self):
-        pass
+    def __init__(self, nombre):
+        self.nombre = nombre
 
     def ejecutar(self, entorno):
-        pass
+        valor = self.nombre.getValor(entorno)
+        ruta = valor + '.txt'
+        archivo = open(ruta, 'w')
+        archivo.write('Esto es una prueba')
+        archivo.close()
+        print('Red generada con éxito')
 
 class InstruccionArreglo:
     def __init__(self):

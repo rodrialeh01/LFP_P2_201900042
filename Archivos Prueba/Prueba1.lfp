@@ -33,10 +33,11 @@ crearcurso(4, 2025, 'Practica Inicial', [103,770]);
 
 consola('Hola');
 consolaln('Holaln');
+consolaln('Pruebaln');
 
 cursosporsemestre(1);
-cursoPorCodigo(101);
-cursoPorNombre('Tecnica Complementaria 1');
-cursosPrerrequisitos(150);
-cursosPostrrequisitos(103);
+cursoPorCodigo(150);
+cursoPorNombre('Idioma Tecnico 4');
+cursosPrerrequisitos(771);
+cursosPostrrequisitos(107);
 generarRed('grafo sistemas usac');
