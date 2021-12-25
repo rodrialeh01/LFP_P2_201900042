@@ -6,6 +6,9 @@ dot= Graph('Arbol de Derivacion','png')
 dot.format= 'png'
 dot.attr(splines='false')
 dot.node_attr.update(shape='circle')
+dot.node_attr.update(fillcolor='darkblue')
+dot.node_attr.update(fontcolor='white')
+dot.node_attr.update(style='filled')
 dot.node_attr.update(color='blue')
 #FUNCION PARA CONTADOR
 i = 0
