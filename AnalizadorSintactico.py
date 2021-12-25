@@ -1,5 +1,8 @@
 from Clases import Token,Error
 
+from Expresiones import *
+from Instrucciones import *
+
 class AnalizadorSintactico:
     def __init__(self):
         self.listaTokens = []
@@ -10,24 +13,31 @@ class AnalizadorSintactico:
         if self.listaTokens[self.i].tipo == 'tk_coma':
             self.i +=1
             if self.listaTokens[self.i].tipo == 'tk_entero':
+                lexema = self.listaTokens[self.i].lexema
+                entero = ExpresionLiteral('entero',lexema)
                 self.i +=1
-                self.listaenteros2()
+                lista = self.listaenteros2()
+                return ExpresionListaEnteros2(entero,lista)
         elif self.listaTokens[self.i].tipo == 'corchetec':
-            return
+            return ExpresionListaEnteros2(None,None)
 
     def listaenteros(self):
         if self.listaTokens[self.i].tipo == 'tk_entero':
+            lex = self.listaTokens[self.i].lexema
+            entero = ExpresionLiteral('entero',lex)
             self.i +=1
-            self.listaenteros2()
+            lista = self.listaenteros2()
+            return ExpresionListaEnteros(entero,lista)
         elif self.listaTokens[self.i].tipo == 'tk_corchetec':
-            return
+            return ExpresionListaEnteros2(None,None)
 
     def arreglo(self):
         if self.listaTokens[self.i].tipo == 'tk_corchetea':
             self.i +=1
-            self.listaenteros()
+            lista = self.listaenteros()
             if self.listaTokens[self.i].tipo == 'tk_corchetec':
                 self.i +=1
+                return ExpresionArreglo(lista)
 
     def generarred(self):
         if self.listaTokens[self.i].tipo == 'tk_generarRed':
@@ -95,11 +105,14 @@ class AnalizadorSintactico:
             if self.listaTokens[self.i].tipo == 'tk_parentesisa':
                 self.i +=1
                 if self.listaTokens[self.i].tipo == 'tk_entero':
+                    entero = self.listaTokens[self.i].lexema
+                    expentero = ExpresionLiteral('entero',entero)
                     self.i +=1
                     if self.listaTokens[self.i].tipo == 'tk_parentesisc':
                         self.i +=1
                         if self.listaTokens[self.i].tipo == 'tk_puntoycoma':
                             self.i +=1
+                            return InstruccionCursosporsemestre(expentero)
 
     def imprimirconsalto(self):
         if self.listaTokens[self.i].tipo == 'tk_consolaln':
@@ -107,11 +120,14 @@ class AnalizadorSintactico:
             if self.listaTokens[self.i].tipo == 'tk_parentesisa':
                 self.i +=1
                 if self.listaTokens[self.i].tipo == 'tk_cadena':
+                    lex = self.listaTokens[self.i].lexema
+                    explex = ExpresionLiteral('cadena',lex)
                     self.i +=1
                     if self.listaTokens[self.i].tipo == 'tk_parentesisc':
                         self.i +=1
                         if self.listaTokens[self.i].tipo == 'tk_puntoycoma':
                             self.i +=1
+                            return InstruccionImprimirconsalto(explex)
 
     def imprimirsinsalto(self):
         if self.listaTokens[self.i].tipo == 'tk_consola':
@@ -119,11 +135,14 @@ class AnalizadorSintactico:
             if self.listaTokens[self.i].tipo == 'tk_parentesisa':
                 self.i +=1
                 if self.listaTokens[self.i].tipo == 'tk_cadena':
+                    cadena = self.listaTokens[self.i].lexema
+                    expcadena = ExpresionLiteral('cadena',cadena)
                     self.i +=1
                     if self.listaTokens[self.i].tipo == 'tk_parentesisc':
                         self.i +=1
                         if self.listaTokens[self.i].tipo == 'tk_puntoycoma':
                             self.i +=1
+                            return InstruccionImprimirsinsalto(expcadena)
 
     def crearcurso(self):
         if self.listaTokens[self.i].tipo == 'tk_crearcurso':
@@ -131,23 +150,31 @@ class AnalizadorSintactico:
             if self.listaTokens[self.i].tipo == 'tk_parentesisa':
                 self.i +=1
                 if self.listaTokens[self.i].tipo == 'tk_entero':
+                    lexe1 = self.listaTokens[self.i].lexema
+                    expe1 = ExpresionLiteral('entero',lexe1)
                     self.i +=1
                     if self.listaTokens[self.i].tipo == 'tk_coma':
                         self.i +=1
                         if self.listaTokens[self.i].tipo == 'tk_entero':
+                            lexe2 = self.listaTokens[self.i].lexema
+                            expe2 = ExpresionLiteral('entero',lexe2)
                             self.i +=1
                             if self.listaTokens[self.i].tipo == 'tk_coma':
                                 self.i +=1
                                 if self.listaTokens[self.i].tipo == 'tk_cadena':
+                                    lexc = self.listaTokens[self.i].lexema
+                                    expc = ExpresionLiteral('cadena',lexc)
                                     self.i +=1
                                     if self.listaTokens[self.i].tipo == 'tk_coma':
                                         self.i +=1
                                         if self.listaTokens[self.i].tipo == 'tk_corchetea':
-                                            self.arreglo()
+                                            a = self.arreglo()
+                                            arr = ExpresionLiteral('arreglo', a)
                                             if self.listaTokens[self.i].tipo == 'tk_parentesisc':
                                                 self.i +=1
                                                 if self.listaTokens[self.i].tipo == 'tk_puntoycoma':
                                                     self.i +=1
+                                                    return InstruccionCrearcurso(expe1,expe2,expc,arr)
 
 
 
@@ -157,51 +184,70 @@ class AnalizadorSintactico:
             if self.listaTokens[self.i].tipo == 'tk_parentesisa':
                 self.i +=1
                 if self.listaTokens[self.i].tipo == 'tk_cadena':
+                    cadena = self.listaTokens[self.i].lexema
+                    expcadena = ExpresionLiteral('cadena',cadena)
                     self.i +=1
                     if self.listaTokens[self.i].tipo == 'tk_parentesisc':
                         self.i +=1
                         if self.listaTokens[self.i].tipo == 'tk_puntoycoma':
                             self.i +=1
+                            return InstruccionNombrarred(expcadena)
 
     def instruccion(self):
         if self.listaTokens[self.i].tipo == 'tk_nombre_de_red':
-            self.nombrarred()
+            ins = self.nombrarred()
+            return InstruccionInstruccion(ins)
         elif self.listaTokens[self.i].tipo == 'tk_crearcurso':
-            self.crearcurso()
+            ins = self.crearcurso()
+            return InstruccionInstruccion(ins)
         elif self.listaTokens[self.i].tipo == 'tk_consola':
-            self.imprimirsinsalto()
+            ins = self.imprimirsinsalto()
+            return InstruccionInstruccion(ins)
         elif self.listaTokens[self.i].tipo == 'tk_consolaln':
-            self.imprimirconsalto()
+            ins = self.imprimirconsalto()
+            return InstruccionInstruccion(ins)
         elif self.listaTokens[self.i].tipo == 'tk_cursosporsemestre':
-            self.cursosporsemestre()
+            ins = self.cursosporsemestre()
+            return InstruccionInstruccion(ins)
         elif self.listaTokens[self.i].tipo == 'tk_cursoPorCodigo':
-            self.cursoporcodigo()
+            ins = self.cursoporcodigo()
+            return InstruccionInstruccion(ins)
         elif self.listaTokens[self.i].tipo == 'tk_cursoPorNombre':
-            self.cursopornombre()
+            ins = self.cursopornombre()
+            return InstruccionInstruccion(ins)
         elif self.listaTokens[self.i].tipo == 'tk_cursosPrerrequisitos':
-            self.cursosprerrequisitos()
+            ins = self.cursosprerrequisitos()
+            return InstruccionInstruccion(ins)
         elif self.listaTokens[self.i].tipo == 'tk_cursosPostrrequisitos':
-            self.cursospostrrequisitos()
+            ins = self.cursospostrrequisitos()
+            return InstruccionInstruccion(ins)
         elif self.listaTokens[self.i].tipo == 'tk_generarRed':
-            self.generarred()
+            ins = self.generarred()
+            return InstruccionInstruccion(ins)
         else:
             pass
 
     def instrucciones2(self):
         if self.listaTokens[self.i].tipo == '<< EOF >>':
             print('Analisis Sintáctico realizado con éxito')
+            return InstruccionInstrucciones2(None, None)
         else:
-            self.instruccion()
-            self.instrucciones2()
+            ins = self.instruccion()
+            ins2 = self.instrucciones2()
+            return InstruccionInstrucciones2(ins,ins2)
 
     def instrucciones(self):
-        self.instruccion()
-        self.instrucciones2()
+        ins = self.instruccion()
+        ins2 = self.instrucciones2()
+        return InstruccionInstrucciones(ins,ins2)
 
     def inicio(self):
-        self.instrucciones()
+        ins = self.instrucciones()
+        return InstruccionInicio(ins)
 
     def analizar(self, listaT, listaE):
         self.listaTokens = listaT
         self.listaErrores = listaE
-        self.inicio()
+
+        raizarbol = self.inicio()
+        raizarbol.ejecutar({})

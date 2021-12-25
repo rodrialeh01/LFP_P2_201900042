@@ -27,7 +27,7 @@ class ExpresionListaEnteros:
         if self.entero and self.listaenteros2:
             valor = self.entero.getValor(entorno)
             lista = self.listaenteros2.getValor(entorno)
-            lista.insert(0, valor)
+            lista.append(valor)
             return lista
         else:
             return []
@@ -41,7 +41,7 @@ class ExpresionListaEnteros2:
         if self.entero and self.listaenteros2:
             valor = self.entero.getValor(entorno)
             lista = self.listaenteros2.getValor(entorno)
-            lista.insert(0, valor)
+            lista.append(valor)
             return lista
         else:
             return []
