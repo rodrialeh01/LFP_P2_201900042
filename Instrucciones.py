@@ -3,7 +3,6 @@ from graphviz import Graph, Digraph
 #---------------------------------LLAMANDO CLASES----------------------------------------
 from Expresiones import *
 from Curso import Curso
-#from RedEstudios import *
 
 #-----------------------------------VARIABLES GLOBALES-----------------------------------
 textconsola = ''
@@ -23,7 +22,7 @@ class InstruccionError():
 
     def getNodos(self):
         global dot
-        id = str(inc())
+        id = str(indice())
         dot.node(id, 'ERROR')
 
         return id
@@ -38,7 +37,7 @@ class InstruccionInicio:
 
     def getNodos(self):
         global dot
-        id = str(inc())
+        id = str(indice())
         dot.node(id, 'INICIO')
 
         idinstrucciones= self.instrucciones.getNodos()
@@ -58,7 +57,7 @@ class InstruccionInstrucciones:
 
     def getNodos(self):
         global dot
-        id = str(inc())
+        id = str(indice())
         dot.node(id, 'INSTRUCCIONES')
 
         idinstruccion= self.instruccion.getNodos()
@@ -79,7 +78,7 @@ class InstruccionInstruccion:
 
     def getNodos(self):
         global dot
-        id = str(inc())
+        id = str(indice())
         dot.node(id, 'INSTRUCCION')
 
         idinstruccion= self.instruccion.getNodos()
@@ -102,7 +101,7 @@ class InstruccionInstrucciones2:
     def getNodos(self):
         global dot
         if self.instruccion and self.instrucciones2:
-            id = str(inc())
+            id = str(indice())
             dot.node(id, 'INSTRUCCIONES2')
 
             idinstruccion= self.instruccion.getNodos()
@@ -113,7 +112,7 @@ class InstruccionInstrucciones2:
 
             return id
         else:
-            id = str(inc())
+            id = str(indice())
             dot.node(id, "Epsilon")
             return id
 
@@ -128,26 +127,26 @@ class InstruccionNombrarred:
         valor = self.exp.getValor(entorno)
         nombrered = valor
         mensaje = '\nAgregó el nombre de red como: ' + str(valor) + '\n'
-        print(mensaje)
+        #print(mensaje)
         textconsola += mensaje
 
     def getNodos(self):
         global dot
-        id = str(inc())
+        id = str(indice())
         dot.node(id, 'NOMBRARRED')
 
-        nr = str(inc())
+        nr = str(indice())
         dot.node(nr, 'nombre_de_red')
 
-        para = str(inc())
+        para = str(indice())
         dot.node(para, '(')
 
         idexp = self.exp.getNodos()
 
-        parc = str(inc())
+        parc = str(indice())
         dot.node(parc, ')')
 
-        pyc = str(inc())
+        pyc = str(indice())
         dot.node(pyc, ';')
 
         dot.edge(id, nr)
@@ -175,35 +174,35 @@ class InstruccionCrearcurso:
         arreglo = self.arreglo.getValor(entorno)
         cursos.append(Curso(valor1,valor2,valor3,arreglo))
         mensaje = 'Se agregó el curso ' + str(valor3) + '\n'
-        print(mensaje)
+        #print(mensaje)
         textconsola += mensaje
 
     def getNodos(self):
         global dot
-        id = str(inc())
+        id = str(indice())
         dot.node(id, 'CREARCURSO')
 
-        cc = str(inc())
+        cc = str(indice())
         dot.node(cc, 'crearcurso')
 
-        para = str(inc())
+        para = str(indice())
         dot.node(para, '(')
 
         e1 = self.entero1.getNodos()
-        c1 = str(inc())
+        c1 = str(indice())
         dot.node(c1, ',')
         e2 = self.entero2.getNodos()
-        c2 = str(inc())
+        c2 = str(indice())
         dot.node(c2, ',')
         c = self.cadena.getNodos()
-        c3 = str(inc())
+        c3 = str(indice())
         dot.node(c3, ',')
         a = self.arreglo.getNodos()
 
-        parc = str(inc())
+        parc = str(indice())
         dot.node(parc, ')')
 
-        pyc = str(inc())
+        pyc = str(indice())
         dot.node(pyc, ';')
 
         dot.edge(id,cc)
@@ -228,26 +227,26 @@ class InstruccionImprimirsinsalto:
     def ejecutar(self, entorno):
         global textconsola
         valor = self.exp.getValor(entorno)
-        print(valor, end=" ")
+        #print(valor, end=" ")
         textconsola+=valor
 
     def getNodos(self):
         global dot
-        id = str(inc())
+        id = str(indice())
         dot.node(id, 'IMPRIMIRSINSALTO')
 
-        cons = str(inc())
+        cons = str(indice())
         dot.node(cons, 'consola')
 
-        para = str(inc())
+        para = str(indice())
         dot.node(para, '(')
 
         idexp = self.exp.getNodos()
 
-        parc = str(inc())
+        parc = str(indice())
         dot.node(parc, ')')
 
-        pyc = str(inc())
+        pyc = str(indice())
         dot.node(pyc, ';')
 
         dot.edge(id, cons)
@@ -267,26 +266,26 @@ class InstruccionImprimirconsalto:
         global textconsola
         valor = self.exp.getValor(entorno)
         valorl = valor + '\n'
-        print(valor)
+        #print(valor)
         textconsola += valorl
 
     def getNodos(self):
         global dot
-        id = str(inc())
+        id = str(indice())
         dot.node(id, 'IMPRIMIRCONSALTO')
 
-        cons = str(inc())
+        cons = str(indice())
         dot.node(cons, 'consolaln')
 
-        para = str(inc())
+        para = str(indice())
         dot.node(para, '(')
 
         idexp = self.exp.getNodos()
 
-        parc = str(inc())
+        parc = str(indice())
         dot.node(parc, ')')
 
-        pyc = str(inc())
+        pyc = str(indice())
         dot.node(pyc, ';')
 
         dot.edge(id, cons)
@@ -312,26 +311,26 @@ class InstruccionCursosporsemestre:
             if int(valor) == int(c.getSemestre()):
                 contenido += 'Código: ' + str(c.getCodigo()) + '\nCurso: ' + str(c.getNombre()) + '\nRequisitos:' + str(c.getPrerrequisitos()) + '\n\n'
         contenido += '************************************\n'
-        print(contenido)
+        #print(contenido)
         textconsola += contenido
 
     def getNodos(self):
         global dot
-        id = str(inc())
+        id = str(indice())
         dot.node(id, 'CURSOSPORSEMESTRE')
 
-        cons = str(inc())
+        cons = str(indice())
         dot.node(cons, 'cursosporsemestre')
 
-        para = str(inc())
+        para = str(indice())
         dot.node(para, '(')
 
         idcod = self.cod.getNodos()
 
-        parc = str(inc())
+        parc = str(indice())
         dot.node(parc, ')')
 
-        pyc = str(inc())
+        pyc = str(indice())
         dot.node(pyc, ';')
 
         dot.edge(id, cons)
@@ -357,26 +356,26 @@ class InstruccionCursoporcodigo:
             if int(valor) == int(c.getCodigo()):
                 contenido += 'Curso: ' + str(c.getNombre()) + '\nSemestre: ' + str(c.getSemestre()) + '\nCódigo: ' + str(c.getCodigo()) + '\nPrerrequisitos: ' + str(c.getPrerrequisitos())
         contenido += '\n************************************\n'
-        print(contenido)
+        #print(contenido)
         textconsola += contenido
 
     def getNodos(self):
         global dot
-        id = str(inc())
+        id = str(indice())
         dot.node(id, 'CURSOPORCODIGO')
 
-        cons = str(inc())
+        cons = str(indice())
         dot.node(cons, 'cursoPorCodigo')
 
-        para = str(inc())
+        para = str(indice())
         dot.node(para, '(')
 
         idcodigo = self.codigo.getNodos()
 
-        parc = str(inc())
+        parc = str(indice())
         dot.node(parc, ')')
 
-        pyc = str(inc())
+        pyc = str(indice())
         dot.node(pyc, ';')
 
         dot.edge(id, cons)
@@ -402,26 +401,26 @@ class InstruccionCursopornombre:
             if str(valor) == str(c.getNombre()):
                 contenido += 'Curso: ' + str(c.getNombre()) + '\nSemestre: ' + str(c.getSemestre()) + '\nCódigo: ' + str(c.getCodigo()) + '\nPrerrequisitos: ' + str(c.getPrerrequisitos())
         contenido += '\n************************************\n'
-        print(contenido)
+        #print(contenido)
         textconsola += contenido
 
     def getNodos(self):
         global dot
-        id = str(inc())
+        id = str(indice())
         dot.node(id, 'CURSOPORNOMBRE')
 
-        cons = str(inc())
+        cons = str(indice())
         dot.node(cons, 'cursoPorNombre')
 
-        para = str(inc())
+        para = str(indice())
         dot.node(para, '(')
 
         idnombre = self.nombre.getNodos()
 
-        parc = str(inc())
+        parc = str(indice())
         dot.node(parc, ')')
 
-        pyc = str(inc())
+        pyc = str(indice())
         dot.node(pyc, ';')
 
         dot.edge(id, cons)
@@ -447,7 +446,7 @@ class InstruccionCursosprerrequisitos:
             if int(valor) == int(c.getCodigo()):
                 contenido += 'Curso: ' + str(c.getNombre()) + '\nPrerrequisitos: ' + self.obtenernombres(c.getPrerrequisitos())
         contenido += '\n************************************\n'
-        print(contenido)
+        #print(contenido)
         textconsola += contenido
 
     def obtenernombres(self,arreglop):
@@ -463,21 +462,21 @@ class InstruccionCursosprerrequisitos:
 
     def getNodos(self):
         global dot
-        id = str(inc())
+        id = str(indice())
         dot.node(id, 'CURSOSPRERREQUISITOS')
 
-        cons = str(inc())
+        cons = str(indice())
         dot.node(cons, 'cursosPrerrequisitos')
 
-        para = str(inc())
+        para = str(indice())
         dot.node(para, '(')
 
         idcodigo = self.codigo.getNodos()
 
-        parc = str(inc())
+        parc = str(indice())
         dot.node(parc, ')')
 
-        pyc = str(inc())
+        pyc = str(indice())
         dot.node(pyc, ';')
 
         dot.edge(id, cons)
@@ -503,7 +502,7 @@ class InstruccionCursospostrrequisitos:
             if int(valor) == int(c.getCodigo()):
                 contenido += 'Curso: ' + str(c.getNombre()) + '\nPostrrequisitos: ' + self.obtenerpost(valor)
         contenido += '\n************************************\n'
-        print(contenido)
+        #print(contenido)
         textconsola += contenido
 
     def obtenerpost(self,codigo):
@@ -519,21 +518,21 @@ class InstruccionCursospostrrequisitos:
 
     def getNodos(self):
         global dot
-        id = str(inc())
+        id = str(indice())
         dot.node(id, 'CURSOSPOSTRREQUISITOS')
 
-        cons = str(inc())
+        cons = str(indice())
         dot.node(cons, 'cursosPostrrequisitos')
 
-        para = str(inc())
+        para = str(indice())
         dot.node(para, '(')
 
         idcodigo = self.codigo.getNodos()
 
-        parc = str(inc())
+        parc = str(indice())
         dot.node(parc, ')')
 
-        pyc = str(inc())
+        pyc = str(indice())
         dot.node(pyc, ';')
 
         dot.edge(id, cons)
@@ -569,27 +568,27 @@ class InstruccionGenerarred:
                 red.edge(str(p),str(c.getCodigo()))                              
 
         red.view()
-        print('Red de ' + str(nombrered) + ' generada con éxito')
+        #print('Red de ' + str(nombrered) + ' generada con éxito')
 
         textconsola += '\nRed de ' + str(nombrered) + ' generada con éxito'
 
     def getNodos(self):
         global dot
-        id = str(inc())
+        id = str(indice())
         dot.node(id, 'GENERARRED')
 
-        cons = str(inc())
+        cons = str(indice())
         dot.node(cons, 'generarRed')
 
-        para = str(inc())
+        para = str(indice())
         dot.node(para, '(')
 
         idnombre = self.nombre.getNodos()
 
-        parc = str(inc())
+        parc = str(indice())
         dot.node(parc, ')')
 
-        pyc = str(inc())
+        pyc = str(indice())
         dot.node(pyc, ';')
 
         dot.edge(id, cons)

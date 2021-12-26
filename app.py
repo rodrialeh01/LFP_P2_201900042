@@ -65,7 +65,7 @@ def AnalizarArchivo():
     global cuadroconsola
     contenido = cuadro1.get(1.0, END)    
     escaner.analisis(contenido)
-    print(contenido)
+    #print(contenido)
     AnalizadorSintactico().analizar(escaner.listaTokens,escaner.listaErrores)
     if cuadroconsola.get(1.0, END) != "":
         cuadroconsola.config(state='normal')

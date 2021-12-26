@@ -12,7 +12,7 @@ dot.node_attr.update(style='filled')
 dot.node_attr.update(color='blue')
 #FUNCION PARA CONTADOR
 i = 0
-def inc():
+def indice():
     global i
     i += 1
     return i
@@ -37,13 +37,13 @@ class ExpresionLiteral:
 
     def getNodos(self):
         global dot
-        id = str(inc())
+        id = str(indice())
         dot.node(id, "Expresion")
 
-        idlit = str(inc())
+        idlit = str(indice())
         dot.node(idlit, "Literal")
 
-        idlex = str(inc())
+        idlex = str(indice())
         dot.node(idlex, str(self.valor))
 
         dot.edge(id,idlit)
@@ -62,15 +62,15 @@ class ExpresionArreglo:
     def getNodos(self):
         global dot
 
-        id = str(inc())
+        id = str(indice())
         dot.node(id,"Arreglo")
 
-        idca = str(inc())
+        idca = str(indice())
         dot.node(idca, "[")
 
         idlistacadenas = self.arreglo.getNodos()
 
-        idcc = str(inc())
+        idcc = str(indice())
         dot.node(idcc, "]")
 
         dot.edge(id, idca)
@@ -97,13 +97,13 @@ class ExpresionListaEnteros:
     def getNodos(self):
         global dot
         if self.entero and self.listaenteros2:
-            id = str(inc())
+            id = str(indice())
             dot.node(id, 'ListaEnteros')
             
-            idlit = str(inc())
+            idlit = str(indice())
             dot.node(idlit, 'Literal')
 
-            idlex = str(inc())
+            idlex = str(indice())
             dot.node(idlex, self.entero.getValor(None))
 
             idlistaenteros2 = self.listaenteros2.getNodos()
@@ -114,7 +114,7 @@ class ExpresionListaEnteros:
 
             return id
         else:
-            id = str(inc())
+            id = str(indice())
             dot.node(id, "Epsilon")
             return id
 
@@ -136,16 +136,16 @@ class ExpresionListaEnteros2:
     def getNodos(self):
         global dot
         if self.entero and self.listaenteros2:
-            id = str(inc())
+            id = str(indice())
             dot.node(id,'ListaEnteros2')
 
-            idcoma = str(inc())
+            idcoma = str(indice())
             dot.node(idcoma, ',')
 
-            idlit = str(inc())
+            idlit = str(indice())
             dot.node(idlit, 'Literal')
 
-            idlex = str(inc())
+            idlex = str(indice())
             dot.node(idlex, self.entero.getValor(None))
 
             idlistaenteros2 = self.listaenteros2.getNodos()
@@ -157,6 +157,6 @@ class ExpresionListaEnteros2:
             
             return id
         else:
-            id = str(inc())
+            id = str(indice())
             dot.node(id, "Epsilon")
             return id

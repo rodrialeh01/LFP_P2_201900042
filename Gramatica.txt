@@ -16,21 +16,21 @@ INSTRUCCION -> NOMBRARRED
              | CURSOSPOSTRREQUISITOS
              | GENERARRED 
 
-NOMBRARRED -> nombre_de_red parentesisa cadena parentesisc puntoycoma
-CREARCURSO -> crearcurso parentesisa entero coma entero coma cadena coma ARREGLO parentesisc puntoycoma
-IMPRIMIRSINSALTO -> consola parentesisa entero parentesisc puntoycoma
-IMPRIMIRCONSALTO -> consolaln parentesisa entero parentesisc puntoycoma
-CURSOSPORSEMESTRE -> cursosporsemestre parentesisa entero parentesisc puntoycoma
-CURSOPORCODIGO -> cursoPorCodigo parentesisa entero parentesisc puntoycoma
-CURSOPORNOMBRE -> cursoPorNombre parentesisa cadena parentesisc puntoycoma
-CURSOSPRERREQUISITOS -> cursosPrerrequisitos parentesisa entero parentesisc puntoycoma
-CURSOSPOSTRREQUISITOS -> cursosPostrrequisitos parentesisa entero parentesisc puntoycoma
-GENERARRED -> generarRed parentesisa cadena parentesisc puntoycoma
+NOMBRARRED -> tk_nombre_de_red tk_parentesisa tk_cadena tk_parentesisc tk_puntoycoma
+CREARCURSO -> tk_crearcurso tk_parentesisa tk_entero tk_coma tk_entero tk_coma tk_cadena tk_coma tk_ARREGLO tk_parentesisc tk_puntoycoma
+IMPRIMIRSINSALTO -> tk_consola tk_parentesisa tk_entero tk_parentesisc tk_puntoycoma
+IMPRIMIRCONSALTO -> tk_consolaln tk_parentesisa tk_entero tk_parentesisc tk_puntoycoma
+CURSOSPORSEMESTRE -> tk_cursosporsemestre tk_parentesisa tk_entero tk_parentesisc tk_puntoycoma
+CURSOPORCODIGO -> tk_cursoPorCodigo tk_parentesisa tk_entero tk_parentesisc tk_puntoycoma
+CURSOPORNOMBRE -> tk_cursoPorNombre tk_parentesisa tk_cadena tk_parentesisc tk_puntoycoma
+CURSOSPRERREQUISITOS -> tk_cursosPrerrequisitos tk_parentesisa tk_entero tk_parentesisc tk_puntoycoma
+CURSOSPOSTRREQUISITOS -> tk_cursosPostrrequisitos tk_parentesisa tk_entero tk_parentesisc tk_puntoycoma
+GENERARRED -> tk_generarRed tk_parentesisa tk_cadena tk_parentesisc tk_puntoycoma
 
-ARREGLO -> corchetea LISTAENTEROS corchetec
+ARREGLO -> tk_corchetea LISTAENTEROS tk_corchetec
 
-LISTAENTEROS -> entero LISTAENTEROS2 
-              | Epsilon (corchetec)
+LISTAENTEROS -> tk_entero LISTAENTEROS2 
+              | Epsilon (tk_corchetec)
 
-LISTAENTEROS2 -> coma entero LISTAENTEROS2
-               | Epsilon (corchetec)
+LISTAENTEROS2 -> tk_coma tk_entero LISTAENTEROS2
+               | Epsilon (tk_corchetec)

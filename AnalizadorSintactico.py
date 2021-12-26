@@ -449,8 +449,9 @@ class AnalizadorSintactico:
             ins2 = self.instrucciones2()
             return InstruccionInstrucciones(ins,ins2)
         except:
-            self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'ERROR SINTACTICO','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-            return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
+            #self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'ERROR SINTACTICO','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
+            #return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
+            pass
 
     #FUNCION DE ORDEN DE INICIO
     def inicio(self):
@@ -458,8 +459,9 @@ class AnalizadorSintactico:
             ins = self.instrucciones()
             return InstruccionInicio(ins)
         except:
-            self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'ERROR SINTACTICO','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-            return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
+            #self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'ERROR SINTACTICO','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
+            #return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
+            pass
     
     #FUNCION DE REALIZAR EL ANALISIS SINTACTICO
     def analizar(self, listaT, listaE):
@@ -472,5 +474,6 @@ class AnalizadorSintactico:
             raizarbol.ejecutar({})
             raizarbol.getNodos()
         except:
-            self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'ERROR SINTACTICO','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-            return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
+            #self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'ERROR SINTACTICO','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
+            #return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
+            pass
