@@ -9,6 +9,24 @@ textconsola = ''
 cursos = []
 nombrered = ''
 
+#CLASE DE ERROR
+class InstruccionError():
+    def __init__(self, linea, columna):
+        self.linea = linea
+        self.columna = columna
+
+    def ejecutar(self, entorno):
+        global textconsola
+        mensaje = 'Se encontró un error Sintáctico en la linea ' + str(self.linea) + '\n'
+        textconsola += mensaje
+
+    def getNodos(self):
+        global dot
+        id = str(inc())
+        dot.node(id, 'ERROR')
+
+        return id
+
 #CLASE DE INICIO
 class InstruccionInicio:
     def __init__(self, instrucciones):
@@ -108,7 +126,7 @@ class InstruccionNombrarred:
         global textconsola
         valor = self.exp.getValor(entorno)
         nombrered = valor
-        mensaje = 'Agregó el nombre de red como: ' + str(valor) + '\n'
+        mensaje = '\nAgregó el nombre de red como: ' + str(valor) + '\n'
         print(mensaje)
         textconsola += mensaje
 

@@ -43,7 +43,7 @@ consola('Hola');
 consolaln('Holaln');
 consolaln('Pruebaln');
 
-cursosporsemestre(1);
+cursosPorSemestre(1);
 cursoPorCodigo(150);
 cursoPorNombre('Idioma Tecnico 4');
 cursosPrerrequisitos(771);

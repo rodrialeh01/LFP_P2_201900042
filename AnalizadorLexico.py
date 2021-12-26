@@ -99,7 +99,7 @@ class AnalizadorLexico:
                         self.listaTokens.append(Token(buffer, 'tk_consola', linea,columna))
                     elif buffer == 'consolaln':
                         self.listaTokens.append(Token(buffer, 'tk_consolaln', linea,columna))
-                    elif buffer == 'cursosporsemestre':
+                    elif buffer == 'cursosPorSemestre':
                         self.listaTokens.append(Token(buffer, 'tk_cursosporsemestre', linea,columna))
                     elif buffer == 'cursoPorCodigo':
                         self.listaTokens.append(Token(buffer, 'tk_cursoPorCodigo', linea,columna))

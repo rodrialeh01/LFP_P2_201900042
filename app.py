@@ -16,9 +16,7 @@ from ReporteTokens import generararchivoT
 from Instrucciones import *
 
 #--------------------------------VARIABLES GLOBALES-------------------------------------
-contenido = ''
 escaner = AnalizadorLexico()
-orden = AnalizadorSintactico()
 
 #VENTANA
 ventana = tk.Tk()
@@ -62,14 +60,13 @@ def CargarArchivo():
 
 #FUNCION PARA ANALIZAR EL ARCHIVO LFP
 def AnalizarArchivo():
-    global contenido
     global cuadro1
     global escaner
-    global orden
     global cuadroconsola
     contenido = cuadro1.get(1.0, END)    
     escaner.analisis(contenido)
-    orden.analizar(escaner.listaTokens,escaner.listaErrores)
+    print(contenido)
+    AnalizadorSintactico().analizar(escaner.listaTokens,escaner.listaErrores)
     if cuadroconsola.get(1.0, END) != "":
         cuadroconsola.config(state='normal')
         cuadroconsola.delete(1.0,END)
