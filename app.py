@@ -102,8 +102,8 @@ def generarReporte():
         generararchivoE(escaner.listaErrores)
     elif (copciones.get()=="Arbol de derivacion"):
         print('REPORTE DE ARBOL DE DERIVACION')
-        messagebox.showinfo("Success","Árbol de derivación generado exitosamente.")
         verarbol()
+        messagebox.showinfo("Success","Árbol de derivación generado exitosamente.")
     else:
         messagebox.showinfo("Warning","No ha seleccionado nada valido.")
 

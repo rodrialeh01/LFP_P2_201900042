@@ -1,8 +1,9 @@
 #---------------------------------LLAMANDO LIBRERIA GRAPHVIZ-----------------------------
-from graphviz import Graph
+from graphviz import Graph, Digraph
 #---------------------------------LLAMANDO CLASES----------------------------------------
 from Expresiones import *
 from Curso import Curso
+#from RedEstudios import *
 
 #-----------------------------------VARIABLES GLOBALES-----------------------------------
 textconsola = ''
@@ -456,6 +457,8 @@ class InstruccionCursosprerrequisitos:
             for p in arreglop:
                 if int(p) == int(c.getCodigo()):
                     content += c.getNombre() + '\n                '
+        if content == '':
+            content = 'Ninguno'
         return content
 
     def getNodos(self):
@@ -510,6 +513,8 @@ class InstruccionCursospostrrequisitos:
             for p in c.getPrerrequisitos():
                 if int(codigo) == int(p):
                     texto += str(c.getNombre()) + '\n                 '
+        if texto == '':
+            texto = 'Ninguno'
         return texto
 
     def getNodos(self):
@@ -546,13 +551,27 @@ class InstruccionGenerarred:
 
     def ejecutar(self, entorno):
         global textconsola
+        global cursos
+        global nombrered
         valor = self.nombre.getValor(entorno)
-        ruta = valor + '.txt'
-        archivo = open(ruta, 'w')
-        archivo.write('Esto es una prueba')
-        archivo.close()
-        print('Red generada con éxito')
-        textconsola += '\nRed generada con éxito'
+        red = Digraph(valor, 'png')
+        red.format = 'png'
+        red.attr(splines='false')
+        red.node_attr.update(shape='record')
+        red.node_attr.update(fillcolor='orangered')
+        red.node_attr.update(fontcolor='white')
+        red.node_attr.update(style='filled')
+        titulo = '<<B>'+str(nombrered)+'</B>>'
+        red.attr(label= str(titulo))
+        for c in cursos:
+            red.node(str(c.getCodigo()),'Cod. '+str(c.getCodigo()) + '|' +str(c.getNombre()))
+            for p in c.getPrerrequisitos():
+                red.edge(str(p),str(c.getCodigo()))                              
+
+        red.view()
+        print('Red de ' + str(nombrered) + ' generada con éxito')
+
+        textconsola += '\nRed de ' + str(nombrered) + ' generada con éxito'
 
     def getNodos(self):
         global dot
@@ -580,11 +599,12 @@ class InstruccionGenerarred:
         dot.edge(id,pyc)
 
         return id
-
+#FUNCION PARA PODER VER Y GENERAR EL ARBOL DE DERIVACION
 def verarbol():
     global dot
     dot.view()
 
+#FUNCION PARA RETORNAR LAS CADENAS GENERADAS DE LAS INSTRUCCIONES
 def texto():
     global textconsola
     return textconsola
