@@ -58,8 +58,8 @@ def CargarArchivo():
     else:
         messagebox.showinfo("Warning","No se cargó ningun archivo")
 
-#FUNCION PARA ANALIZAR EL ARCHIVO LFP
-def AnalizarArchivo():
+#FUNCION PARA ANALIZAR EL TEXTO DEL LENGUAJE LFP
+def AnalizarTexto():
     global cuadro1
     global escaner
     global cuadroconsola
@@ -81,7 +81,7 @@ botonca = Button(ventana,text='Cargar Archivo', font='arial 12 bold', bg="white"
 botonca.place(x=550,y=20)
 
 #BOTON DE ANALIZAR ARCHIVO
-botonca = Button(ventana,text='Analizar Texto', font='arial 12 bold', bg="white", command=AnalizarArchivo)
+botonca = Button(ventana,text='Analizar Texto', font='arial 12 bold', bg="white", command=AnalizarTexto)
 botonca.place(x=700,y=20)
 
 #COMBOBOX DE OPCIONES
