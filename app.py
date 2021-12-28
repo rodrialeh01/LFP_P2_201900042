@@ -66,7 +66,10 @@ def AnalizarArchivo():
     contenido = cuadro1.get(1.0, END)    
     escaner.analisis(contenido)
     #print(contenido)
-    AnalizadorSintactico().analizar(escaner.listaTokens,escaner.listaErrores)
+    parser = AnalizadorSintactico()
+    arbol = parser.analizar(escaner.listaTokens,escaner.listaErrores)
+    arbol.ejecutar({})
+    arbol.getNodos()
     if cuadroconsola.get(1.0, END) != "":
         cuadroconsola.config(state='normal')
         cuadroconsola.delete(1.0,END)

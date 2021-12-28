@@ -11,13 +11,12 @@ nombrered = ''
 
 #CLASE DE ERROR
 class InstruccionError():
-    def __init__(self, linea, columna):
+    def __init__(self, linea):
         self.linea = linea
-        self.columna = columna
 
     def ejecutar(self, entorno):
         global textconsola
-        mensaje = 'Se encontró un error Sintáctico en la linea ' + str(self.linea) + '\n'
+        mensaje = 'Se encontró un ERROR en la linea ' + str(self.linea) + '\n'
         textconsola += mensaje
 
     def getNodos(self):
@@ -94,8 +93,9 @@ class InstruccionInstrucciones2:
         self.instrucciones2 = instrucciones2
 
     def ejecutar(self, entorno):
-        if self.instruccion and self.instrucciones2:
+        if self.instruccion:
             self.instruccion.ejecutar(entorno)
+        if self.instrucciones2:
             self.instrucciones2.ejecutar(entorno)
 
     def getNodos(self):

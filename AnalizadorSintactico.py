@@ -3,9 +3,6 @@ from Clases import Token,Error
 from Expresiones import *
 from Instrucciones import *
 
-#-----------------------------------VARIABLES GLOBALES---------------------------------
-raizarbol = ''
-
 class AnalizadorSintactico:
     def __init__(self):
         self.listaTokens = []
@@ -27,9 +24,13 @@ class AnalizadorSintactico:
                 return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
         elif self.listaTokens[self.i].tipo == 'tk_corchetec':
             return ExpresionListaEnteros2(None,None)
-        else:
-            self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba ,','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-            return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
+        tipo = self.listaTokens[self.i].tipo
+        lexema = self.listaTokens[self.i].lexema
+        linea = self.listaTokens[self.i].linea
+        columna = self.listaTokens[self.i].columna
+        self.listaErrores.append(Error(lexema,'Error Sintáctico en Token ' + tipo,'Sintáctico', linea, columna))
+        self.i += 1
+        return InstruccionError(linea)
 
     #FUNCION DEL ORDEN DE LISTADEENTEROS
     def listaenteros(self):
@@ -41,9 +42,13 @@ class AnalizadorSintactico:
             return ExpresionListaEnteros(entero,lista)
         elif self.listaTokens[self.i].tipo == 'tk_corchetec':
             return ExpresionListaEnteros2(None,None)
-        else:
-            self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba un entero','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-            return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
+        tipo = self.listaTokens[self.i].tipo
+        lexema = self.listaTokens[self.i].lexema
+        linea = self.listaTokens[self.i].linea
+        columna = self.listaTokens[self.i].columna
+        self.listaErrores.append(Error(lexema,'Error Sintáctico en Token ' + tipo,'Sintáctico', linea, columna))
+        self.i += 1
+        return InstruccionError(linea)
 
     #FUNCION DE ORDEN DE ARREGLO
     def arreglo(self):
@@ -53,12 +58,13 @@ class AnalizadorSintactico:
             if self.listaTokens[self.i].tipo == 'tk_corchetec':
                 self.i += 1
                 return ExpresionArreglo(lista)
-            else:
-                self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba [','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-        else:
-            self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba ]','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-            return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
+        tipo = self.listaTokens[self.i].tipo
+        lexema = self.listaTokens[self.i].lexema
+        linea = self.listaTokens[self.i].linea
+        columna = self.listaTokens[self.i].columna
+        self.listaErrores.append(Error(lexema,'Error Sintáctico en Token ' + tipo,'Sintáctico', linea, columna))
+        self.i += 1
+        return InstruccionError(linea)
 
     #FUNCION DE ORDEN DE GENERARRED
     def generarred(self):
@@ -75,19 +81,13 @@ class AnalizadorSintactico:
                         if self.listaTokens[self.i].tipo == 'tk_puntoycoma':
                             self.i += 1
                             return InstruccionGenerarred(excadena)
-                        else:
-                            self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba ;','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                            return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                    else:
-                        self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba )','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                else:
-                    self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba una cadena','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                    return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-            else:
-                self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba (','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
+        tipo = self.listaTokens[self.i].tipo
+        lexema = self.listaTokens[self.i].lexema
+        linea = self.listaTokens[self.i].linea
+        columna = self.listaTokens[self.i].columna
+        self.listaErrores.append(Error(lexema,'Error Sintáctico en Token ' + tipo,'Sintáctico', linea, columna))
+        self.i += 1
+        return InstruccionError(linea)
 
     #FUNCION DE ORDEN DE CURSOSPOSTRREQUITOS
     def cursospostrrequisitos(self):
@@ -104,19 +104,13 @@ class AnalizadorSintactico:
                         if self.listaTokens[self.i].tipo == 'tk_puntoycoma':
                             self.i += 1
                             return InstruccionCursospostrrequisitos(expentero)
-                        else:
-                            self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba ;','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                            return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                    else:
-                        self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba )','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                else:
-                    self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba un entero','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                    return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-            else:
-                self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba (','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
+        tipo = self.listaTokens[self.i].tipo
+        lexema = self.listaTokens[self.i].lexema
+        linea = self.listaTokens[self.i].linea
+        columna = self.listaTokens[self.i].columna
+        self.listaErrores.append(Error(lexema,'Error Sintáctico en Token ' + tipo,'Sintáctico', linea, columna))
+        self.i += 1
+        return InstruccionError(linea)
 
     #FUNCION DE ORDEN DE CURSOSPRERREQUISITOS
     def cursosprerrequisitos(self):
@@ -133,19 +127,13 @@ class AnalizadorSintactico:
                         if self.listaTokens[self.i].tipo == 'tk_puntoycoma':
                             self.i += 1
                             return InstruccionCursosprerrequisitos(expentero)
-                        else:
-                            self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba ;','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                            return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                    else:
-                        self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba )','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                else:
-                    self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba un entero','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                    return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-            else:
-                self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba (','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
+        tipo = self.listaTokens[self.i].tipo
+        lexema = self.listaTokens[self.i].lexema
+        linea = self.listaTokens[self.i].linea
+        columna = self.listaTokens[self.i].columna
+        self.listaErrores.append(Error(lexema,'Error Sintáctico en Token ' + tipo,'Sintáctico', linea, columna))
+        self.i += 1
+        return InstruccionError(linea)
 
     #FUNCION DE ORDEN DE CURSOPORNOMBRE
     def cursopornombre(self):
@@ -162,19 +150,13 @@ class AnalizadorSintactico:
                         if self.listaTokens[self.i].tipo == 'tk_puntoycoma':
                             self.i += 1
                             return InstruccionCursopornombre(excadena)
-                        else:
-                            self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba ;','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                            return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                    else:
-                        self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba )','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                else:
-                    self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba una cadena','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                    return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-            else:
-                self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba (','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
+        tipo = self.listaTokens[self.i].tipo
+        lexema = self.listaTokens[self.i].lexema
+        linea = self.listaTokens[self.i].linea
+        columna = self.listaTokens[self.i].columna
+        self.listaErrores.append(Error(lexema,'Error Sintáctico en Token ' + tipo,'Sintáctico', linea, columna))
+        self.i += 1
+        return InstruccionError(linea)
 
     #FUNCION DE ORDEN DE CURSOPORCODIGO
     def cursoporcodigo(self):
@@ -191,19 +173,13 @@ class AnalizadorSintactico:
                         if self.listaTokens[self.i].tipo == 'tk_puntoycoma':
                             self.i += 1
                             return InstruccionCursoporcodigo(expentero)
-                        else:
-                            self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba ;','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                            return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                    else:
-                        self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba )','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                else:
-                    self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba un entero','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                    return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-            else:
-                self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba (','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
+        tipo = self.listaTokens[self.i].tipo
+        lexema = self.listaTokens[self.i].lexema
+        linea = self.listaTokens[self.i].linea
+        columna = self.listaTokens[self.i].columna
+        self.listaErrores.append(Error(lexema,'Error Sintáctico en Token ' + tipo,'Sintáctico', linea, columna))
+        self.i += 1
+        return InstruccionError(linea)
 
 
     #FUNCION DE ORDEN DE CURSOSPORSEMESTRE
@@ -221,20 +197,13 @@ class AnalizadorSintactico:
                         if self.listaTokens[self.i].tipo == 'tk_puntoycoma':
                             self.i += 1
                             return InstruccionCursosporsemestre(expentero)
-                        else:
-                            self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba ;','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                            return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                    else:
-                        self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba )','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                else:
-                    self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba un entero','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                    return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-            else:
-                self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba (','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-
+        tipo = self.listaTokens[self.i].tipo
+        lexema = self.listaTokens[self.i].lexema
+        linea = self.listaTokens[self.i].linea
+        columna = self.listaTokens[self.i].columna
+        self.listaErrores.append(Error(lexema,'Error Sintáctico en Token ' + tipo,'Sintáctico', linea, columna))
+        self.i += 1
+        return InstruccionError(linea)
 
     #FUNCION DE ORDEN DE IMPRIMIRCONSALTO
     def imprimirconsalto(self):
@@ -251,19 +220,13 @@ class AnalizadorSintactico:
                         if self.listaTokens[self.i].tipo == 'tk_puntoycoma':
                             self.i += 1
                             return InstruccionImprimirconsalto(explex)
-                        else:
-                            self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba ;','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                            return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                    else:
-                        self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba )','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                else:
-                    self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba una cadena','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                    return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-            else:
-                self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba (','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
+        tipo = self.listaTokens[self.i].tipo
+        lexema = self.listaTokens[self.i].lexema
+        linea = self.listaTokens[self.i].linea
+        columna = self.listaTokens[self.i].columna
+        self.listaErrores.append(Error(lexema,'Error Sintáctico en Token ' + tipo,'Sintáctico', linea, columna))
+        self.i += 1
+        return InstruccionError(linea)
 
 
     #FUNCION DE ORDEN DE IMPRIMIRSINSALTO
@@ -281,19 +244,13 @@ class AnalizadorSintactico:
                         if self.listaTokens[self.i].tipo == 'tk_puntoycoma':
                             self.i += 1
                             return InstruccionImprimirsinsalto(expcadena)
-                        else:
-                            self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba ;','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                            return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                    else:
-                        self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba )','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                else:
-                    self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba una cadena','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                    return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-            else:
-                self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba (','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
+        tipo = self.listaTokens[self.i].tipo
+        lexema = self.listaTokens[self.i].lexema
+        linea = self.listaTokens[self.i].linea
+        columna = self.listaTokens[self.i].columna
+        self.listaErrores.append(Error(lexema,'Error Sintáctico en Token ' + tipo,'Sintáctico', linea, columna))
+        self.i += 1
+        return InstruccionError(linea)
 
 
     #FUNCION DE ORDEN DE CREARCURSO
@@ -327,37 +284,13 @@ class AnalizadorSintactico:
                                                 if self.listaTokens[self.i].tipo == 'tk_puntoycoma':
                                                     self.i += 1
                                                     return InstruccionCrearcurso(expe1,expe2,expc,arr)
-                                                else:
-                                                    self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba ;','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                                                    return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                                            else:
-                                                self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba )','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                                                return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                                        else:
-                                            self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba un arreglo','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                                            return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                                    else:
-                                        self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba ,','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                                        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                                else:
-                                    self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba una cadena','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                                    return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                            else:
-                                self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba ,','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                                return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                        else:
-                            self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba un entero','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                            return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                    else:
-                        self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba ,','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                else:
-                    self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba un entero','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                    return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-            else:
-                self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba (','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
+        tipo = self.listaTokens[self.i].tipo
+        lexema = self.listaTokens[self.i].lexema
+        linea = self.listaTokens[self.i].linea
+        columna = self.listaTokens[self.i].columna
+        self.listaErrores.append(Error(lexema,'Error Sintáctico en Token ' + tipo,'Sintáctico', linea, columna))
+        self.i += 1
+        return InstruccionError(linea)
 
 
     #FUNCION DE ORDEN DE NOMBRARRED
@@ -375,22 +308,13 @@ class AnalizadorSintactico:
                         if self.listaTokens[self.i].tipo == 'tk_puntoycoma':
                             self.i += 1
                             return InstruccionNombrarred(expcadena)
-                        else:
-                            self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba ;','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                            return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                    else:
-                        self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba )','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                elif self.listaTokens[self.i].tipo == None or self.listaTokens[self.i].tipo == 'tk_entero':
-                    self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba una cadena','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                    return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-                else:
-                    self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba una cadena','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                    return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-            else:
-                self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaba (','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-                return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-        return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
+        tipo = self.listaTokens[self.i].tipo
+        lexema = self.listaTokens[self.i].lexema
+        linea = self.listaTokens[self.i].linea
+        columna = self.listaTokens[self.i].columna
+        self.listaErrores.append(Error(lexema,'Error Sintáctico en Token ' + tipo,'Sintáctico', linea, columna))
+        self.i += 1
+        return InstruccionError(linea)
     
     #FUNCION DE ORDEN DE INSTRUCCION
     def instruccion(self):
@@ -425,55 +349,41 @@ class AnalizadorSintactico:
             ins = self.generarred()
             return InstruccionInstruccion(ins)
         else:
-            #self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'Se esperaban una instruccion','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-            #return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-            pass
+            tipo = self.listaTokens[self.i].tipo
+            lexema = self.listaTokens[self.i].lexema
+            linea = self.listaTokens[self.i].linea
+            columna = self.listaTokens[self.i].columna
+            self.listaErrores.append(Error(lexema,'Error Sintáctico en Token ' + tipo,'Sintáctico', linea, columna))
+            self.i += 1
+            return InstruccionError(linea)
+            
 
     #FUNCION DE ORDEN DE INSTRUCCIONES2
     def instrucciones2(self):
-        try:
-            if self.listaTokens[self.i].tipo == '<< EOF >>':
-                print('Analisis Sintáctico realizado con éxito')
-                return InstruccionInstrucciones2(None, None)
-            else:
-                ins = self.instruccion()
+        if self.listaTokens[self.i].tipo == '<< EOF >>':
+            print('Analisis Sintáctico realizado con éxito')
+            return InstruccionInstrucciones2(None, None)
+        else:
+            ins = self.instruccion()
+            ins2 = None
+            if self.i < len(self.listaTokens):
                 ins2 = self.instrucciones2()
-                return InstruccionInstrucciones2(ins,ins2)
-        except:
-            pass
+            return InstruccionInstrucciones2(ins,ins2)
 
     #FUNCION DE ORDEN DE INSTRUCCIONES
     def instrucciones(self):
-        try:
-            ins = self.instruccion()
-            ins2 = self.instrucciones2()
-            return InstruccionInstrucciones(ins,ins2)
-        except:
-            #self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'ERROR SINTACTICO','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-            #return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-            pass
+        ins = self.instruccion()
+        ins2 = self.instrucciones2()
+        return InstruccionInstrucciones(ins,ins2)
 
     #FUNCION DE ORDEN DE INICIO
     def inicio(self):
-        try:
-            ins = self.instrucciones()
-            return InstruccionInicio(ins)
-        except:
-            #self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'ERROR SINTACTICO','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-            #return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-            pass
+        ins = self.instrucciones()
+        return InstruccionInicio(ins)
     
     #FUNCION DE REALIZAR EL ANALISIS SINTACTICO
     def analizar(self, listaT, listaE):
-        global raizarbol
-        try:
-            self.listaTokens = listaT
-            self.listaErrores = listaE
+        self.listaTokens = listaT
+        self.listaErrores = listaE
 
-            raizarbol = self.inicio()
-            raizarbol.ejecutar({})
-            raizarbol.getNodos()
-        except:
-            #self.listaErrores.append(Error(self.listaTokens[self.i].lexema,'ERROR SINTACTICO','Sintactico',self.listaTokens[self.i].linea,self.listaTokens[self.i].columna))
-            #return InstruccionError(self.listaTokens[self.i].linea,self.listaTokens[self.i].columna)
-            pass
+        return self.inicio()
